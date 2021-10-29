@@ -1,0 +1,42 @@
+Product and checkout need to be created before checkoutDetail. AUTO_INCREMENT can be set to 1 if you wish, these are just the id's that my tables were at. 
+
+You can import the data for product table using the product.sql file. On PHPMyAdmin, go to your product table, select import, choose product.sql file and you should be good. If not you may be able to just run each of those sql statements individually.
+
+
+CREATE TABLE `checkout` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `checkoutTime` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4
+
+
+
+DROP TABLE IF EXISTS product
+
+
+CREATE TABLE `product` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `code` varchar(255) NOT NULL,
+  `image` text NOT NULL,
+  `price` double(10,2) NOT NULL,
+  `description` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `product_code` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1
+
+
+
+CREATE TABLE `checkoutDetail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` decimal(15,2) NOT NULL,
+  `checkout_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_to_product` (`product_id`),
+  KEY `fk_to_checkout` (`checkout_id`),
+  CONSTRAINT `fk_to_checkout` FOREIGN KEY (`checkout_id`) REFERENCES `checkout` (`id`),
+  CONSTRAINT `fk_to_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4
+

@@ -1,0 +1,159 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#FAQintro {
+  text-align: center;
+  padding: 200px;
+  background: url("../../assets/img/coffee%204.jpg") no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+#intro {
+  text-align: center;
+  padding: 200px;
+  background: url("../../assets/img/homepage.jpg") no-repeat;
+  background-size: cover;
+}
+
+#Menuintro {
+  text-align: center;
+  padding: 50px;
+  background: url("../../assets/img/homepage.jpg");
+  background-size: cover;
+}
+
+#contactWelcome {
+  text-align: center;
+  padding: 80px;
+  background: url("../../assets/img/CoffeBeanHeart.jpg");
+  background-size: contain;
+  background-repeat: repeat;
+}
+
+@media (max-width:991px) {
+  #intro {
+    padding: 20px;
+  }
+}
+
+@media (max-width:991px) {
+  #FAQintro {
+    padding: 20px;
+  }
+}
+
+#intro .jumbotron {
+  border-radius: 20px;
+  padding: 40px;
+  background-color: rgba(255,255,255,0.75);
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+#Menuintro .jumbotron {
+  border-radius: 20px;
+  padding: 40px;
+  background-color: #8b4513;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+#FAQintro .jumbotron {
+  border-radius: 20px;
+  padding: 40px;
+  background-color: rgba(0,0,0,0.12);
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+#contactWelcome .jumbotron {
+  border-radius: 20px;
+  padding: 40px;
+  background-color: rgba(255,255,255,0.75);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+@media (max-width:991px) {
+  #intro .jumbotron {
+    padding: 20px;
+  }
+}
+
+.dark-section {
+  background-color: #cd853f;
+}
+
+.site-section {
+  text-align: center;
+  padding-bottom: 70px;
+}
+
+.site-section h1 {
+  font-weight: normal;
+  margin-bottom: 50px;
+  margin-top: 60px;
+}
+
+#welcome p {
+  max-width: 800px;
+  font-size: 20px;
+  margin: 0 auto;
+  color: #666;
+}
+
+@media (max-width:991px) {
+  #why .item {
+    padding-bottom: 36px;
+  }
+}
+
+@media (max-width:991px) {
+  #why {
+    padding-bottom: 14px;
+  }
+}
+
+#why .item i {
+  font-size: 42px;
+  color: chocolate;
+}
+
+#why .item h2 {
+  font-weight: normal;
+  margin-top: 13px;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+#why .item p {
+  color: black;
+}
+
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus {
+  background-color: rgba(0,0,0,0.12);
+  border-color: transparent;
+}
+
+.navbar.navbar-inverse.navbar-fixed-top {
+  background: #cd853f;
+}
+
+#welcome {
+  background: tan;
+}
+
+#navcontainer {
+  background-color: #8b4513;
+}
+
+#navstyle {
+  background-color: #8b4513;
+}
+
+#menubody {
+  background-color: saddlebrown;
+}
+

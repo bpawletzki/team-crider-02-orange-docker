@@ -3,7 +3,7 @@
 
 <head>
   
-    <title>Love You A Latte</title>
+    <title>Love You A Latte - Nick Push</title>
    <?php include('./components/header.php') ?>
 
 </head>

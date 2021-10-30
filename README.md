@@ -12,6 +12,15 @@ To reset the database run the script
 ```
 ./scripts/cleanDB.sh
 ```
+
+## How to update the code
+
+- Use git to upload your branch to the project.
+- git instructions are at:
+https://teams.microsoft.com/l/entity/com.microsoft.teamspace.tab.wiki/tab::d5edc001-0995-4400-a328-aeaf13cf0f0c?context=%7B%22subEntityId%22%3A%22%7B%5C%22pageId%5C%22%3A3%2C%5C%22origin%5C%22%3A2%7D%22%2C%22channelId%22%3A%2219%3Aq0lnnyyZtaZOUbYdl01h0fI5cKGQohILD0prm3J6IOA1%40thread.tacv2%22%7D&tenantId=ffa1db08-d129-474b-92fe-ae219e4319a3
+- After upload is complete, a Pull request is needed to merge the changes to the main branch.
+- 2 people are needed to approve the merge request into the main branch
+
 ## Below this line is the default readme from gitlab. It's not customized for team orange.
 
 ## Add your files

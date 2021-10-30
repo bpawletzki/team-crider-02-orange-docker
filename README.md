@@ -12,6 +12,9 @@ To reset the database run the script
 ```
 ./scripts/cleanDB.sh
 ```
+## Web page editing
+
+The web page code is in the folder public.
 
 ## How to update the code
 

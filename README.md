@@ -1,7 +1,4 @@
 # team-crider-02-orange-docker
-# team-crider-02-orange-docker
-
-
 
 ## Getting started
 

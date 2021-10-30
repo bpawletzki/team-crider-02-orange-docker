@@ -3,12 +3,16 @@
 ## Getting started
 
 Recommended setup:
-Docker
-git
-vscode
-vscode - Docker application
+- Docker: https://www.docker.com/get-started
+- git:  https://git-scm.com/download/win
+- vscode: https://code.visualstudio.com/Download
+- vscode - Docker application: https://code.visualstudio.com/Download
 
-To reset the database run the script ./scripts/cleanDB.sh
+To reset the database run the script 
+```
+./scripts/cleanDB.sh
+```
+## Below this line is the default readme from gitlab. It's not customized for team orange.
 
 ## Add your files
 

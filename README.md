@@ -2,9 +2,13 @@
 
 ## Getting started
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Recommended setup:
+Docker
+git
+vscode
+vscode - Docker application
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+To reset the database run the script ./scripts/cleanDB.sh
 
 ## Add your files
 

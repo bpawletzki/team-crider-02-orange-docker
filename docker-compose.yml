@@ -8,7 +8,7 @@ volumes:
 
 services:
     nginx:
-        container_name: tools-nginx
+        container_name: nginx
         image: nginx:alpine
         restart: always
         ports:
@@ -21,7 +21,7 @@ services:
             - app-network
 
     php-fpm:
-        container_name: tools-php-fpm
+        container_name: php-fpm
         build: docker/php
         working_dir: /var/www
         restart: always
@@ -31,10 +31,10 @@ services:
             - app-network
         volumes:
             - .:/var/www
-            - logs:/var/www/logs
             - ./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
 
     composer:
+        container_name: php-composer
         image: composer:latest
         volumes:
             - .:/app
@@ -42,19 +42,9 @@ services:
         tty: true
         command: install
 
-    # phpunit:
-    #     build: docker/php
-    #     restart: "no"
-    #     volumes:
-    #         - .:/app
-    #     working_dir: /app
-    #     entrypoint: vendor/bin/phpunit
-    #     environment: 
-    #         XDEBUG_MODE: coverage
-
     mariadb:
-        container_name: tools-mariadb
-        image: mariadb
+        container_name: mariadb
+        image: mariadb:latest
         restart: always
         environment:
             MYSQL_ROOT_PASSWORD: "welcome1"
@@ -67,14 +57,7 @@ services:
             - app-network
         volumes:
             - ./data/:/var/lib/mysql
-
-    # memcached:
-    #     image: memcached:alpine
-    #     container_name: tools-memcached
-    #     ports:
-    #         - 11211:11211
-    #     networks:
-    #         - app-network
+            - ./docker/mariadb/init/:/docker-entrypoint-initdb.d
 
 networks:
   app-network:

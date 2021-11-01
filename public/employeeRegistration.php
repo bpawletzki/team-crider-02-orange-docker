@@ -25,7 +25,7 @@
     </div>
 
     <div class="container site-section" id="employeeRegistration">
-        <form method="post" action="process.php" id="employeeLogin">
+        <form method="post" action="employeeRegistration.php" id="employeeLogin">
             <label for="employeeFirstName">First Name:</label>
                 <input type="text" id="employeeFirstName" name="firstName"><br><br>
             <label for="employeeLastName">Last Name:</label>

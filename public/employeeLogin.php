@@ -16,6 +16,15 @@ $username = $password = "";
 $username_err = $password_err = $login_err = "";
 
 // Processing form data when form is submitted
+
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+
+    $_SESSION["loggedin"] = false;
+    unset($_SESSION["id"]);
+    unset($_SESSION["username"]);
+    unset($_SESSION["firstname"]);
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Check if username is empty
@@ -33,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     // Check for 3 failed attempts
     // Prepare a select statement
-    $sql = "SELECT id FROM accessfailed WHERE username = ? AND created_at > TIMESTAMPADD(MINUTE,-5,NOW())";
+    $sql = "SELECT id FROM accessfailed WHERE username = ? AND created_at > TIMESTAMPADD(MINUTE,-15,NOW())";
 
     if ($stmt = mysqli_prepare($link, $sql)) {
         // Bind variables to the prepared statement as parameters
@@ -101,6 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $_SESSION["loggedin"] = false;
                             unset($_SESSION["id"]);
                             unset($_SESSION["username"]);
+                            unset($_SESSION["firstname"]);
 
                             // Prepare an insert statement
                             $sql = "INSERT INTO accessfailed (username) VALUES (?)";
@@ -126,7 +136,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Username doesn't exist, display a generic error message
                     $login_err = "Invalid username or password.";
                     $_SESSION["accesserror"] = $login_err;
-
                 }
             } else {
                 echo "Oops! Something went wrong. Please try again later.";

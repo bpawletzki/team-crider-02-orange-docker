@@ -1,15 +1,20 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 
 <head>
-  
+
     <title>Love You A Latte</title>
-   <?php include('./components/header.php') ?>
+    <?php include('./components/header.php') ?>
 
 </head>
 
 <body>
-<?php include('./components/nav.php') ?>
+    <?php
+    include('./components/nav.php');
+    ?>
 
     <div id="intro">
         <div class="rounded border-light jumbotron py-5 px-4">
@@ -40,8 +45,8 @@
             </div>
         </div>
     </div>
-    
-       <?php include('./components/footer.php') ?>
+
+    <?php include('./components/footer.php') ?>
 
 </body>
 

@@ -18,21 +18,35 @@ $db_handle->connectDB();
 
 <body>
     <?php include('./components/nav.php') ?>
-
-    <body>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <h4>Checkout Receipt</h4>
+    <div id="CheckoutReceipt">
+        <div class="bg-light border rounded border-light jumbotron py-5 px-4">
+            <p></p>
+        </div>
+    </div>
+    <div class="container overflow-auto site-section" id="receipt">
+        <h2>Checkout Receipt</h2>
         <?php
+        function guidv4($data = null)
+        {
+            // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
+            $data = $data ?? random_bytes(16);
+            assert(strlen($data) == 16);
+
+            // Set version to 0100
+            $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+            // Set bits 6-7 to 10
+            $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+
+            // Output the 36 character UUID.
+            return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+        }
 
         if (!empty($_SESSION["cart_item"])) {
             date_default_timezone_set("America/New_York");
             $date_clicked = date('Ymdhis');
-            $checkout = $db_handle->insertQuery("INSERT INTO checkout (checkoutTime) VALUE('$date_clicked')");
-            $checkout_id = $db_handle->getId("SELECT id FROM checkout ORDER BY checkoutTime DESC LIMIT 1");
+            $reciept_uuid = guidv4();
+            $checkout = $db_handle->insertQuery("INSERT INTO checkout (checkoutTime, uuid) VALUE('$date_clicked', '$reciept_uuid')");
+            $checkout_id = $db_handle->getId("SELECT id FROM checkout WHERE uuid='$reciept_uuid'");
             $_SESSION["checkoutid"] = $checkout_id;
             foreach ($_SESSION["cart_item"] as $item) {
                 $productId = $item["id"];
@@ -84,37 +98,15 @@ $db_handle->connectDB();
                 "Checkout Time/Date: " .
                 $dateAndTime . "<br>" . "Receipt Number: " .
                 $receiptNum;
+                unset($_SESSION["cart_item"]);
+                unset($checkout_id);
+                unset($_SESSION["checkoutid"]);
         } else {
             echo "No items in cart.";
         }
         ?>
-        <footer>
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-6 col-md-4 footer-navigation">
-                        <h3><a href="#" style="font-family: 'Abril Fatface', serif;">Love You A Latte</a></h3>
-                        <p class="links"><a href="#">Coffee&nbsp;</a><strong> · </strong><a href="#">Order&nbsp;</a><strong> · </strong><a href="#">Relax</a><strong> </strong></p>
-                        <p class="company-name">Love You A Latte © 2021</p>
-                    </div>
-                    <div class="col-sm-6 col-md-4 footer-contacts">
-                        <div>
-                            <p><span class="new-line-span">0000 PlaceHolder St</span> Columbus, OH</p>
-                        </div>
-                        <div>
-                            <p class="footer-center-info email text-start"> +1 *** ****</p>
-                        </div>
-                        <div>
-                            <p> <a href="#" target="_blank">placeholder@email.com</a></p>
-                        </div>
-                    </div>
-                    <div class="col-md-4 footer-about">
-                        <h4>About the company</h4>
-                        <p>Place Holder for a summary of a future about the company section</p>
-                        <div class="social-links social-icons"></div>
-                    </div>
-                </div>
-            </div>
-            <?php include('./components/footer.php') ?>
-    </body>
+    </div>
+    <?php include('./components/footer.php') ?>
+</body>
 
 </html>

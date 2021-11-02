@@ -4,13 +4,17 @@ ALTER TABLE checkoutDetail DROP FOREIGN KEY fk_to_product;
 TRUNCATE checkoutDetail;
 TRUNCATE checkout;
 TRUNCATE product;
+TRUNCATE employees;
+TRUNCATE accessfailed;
 DROP TABLE IF EXISTS checkout;
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS checkoutDetail;
-
+DROP TABLE IF EXISTS employees;
+DROP TABLE IF EXISTS accessfailed;
 CREATE TABLE `checkout` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `checkoutTime` datetime NOT NULL,
+  `uuid` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
 
@@ -54,5 +58,18 @@ INSERT INTO `product` (`id`, `name`, `code`, `image`, `price`, `description`) VA
 (11, 'Latte Medium', 'latte2', 'product-images/Latte.jpg', 3.50, '12oz - Freshly brewed espresso & perfectly steamed milk.'),
 (12, 'Latte Large', 'latte3', 'product-images/Latte.jpg', 4.00, '16oz - Freshly brewed espresso & perfectly steamed milk.');
 
+CREATE TABLE employees (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(4096) NOT NULL,
+    firstname VARCHAR(128) NOT NULL,
+    lastname VARCHAR(128) NOT NULL,
+    employeeid VARCHAR(128) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
 
-
+CREATE TABLE accessfailed (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);

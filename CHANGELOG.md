@@ -2,14 +2,18 @@
 Please put latest changes on top
 Use ISO-8601 date format: YYYY-MM-DD
 
-# 2021-10-29 
+## 2021-10-30
+
+Laura - added inventory page with form. currently 'Submit' button nonfunctional. working on this code still. updated also assests/img, added image for inventory page
+
+## 2021-10-29 
 Move latest code 
 From: https://github.com/BradGibson-coding/team-crider-02-orange
 To: https://github.com/bpawletzki/team-crider-02-orange-docker 
 
 Per instructions on https://hub.docker.com/_/mariadb "Initializing a fresh instance", created a docker-entrypoint-initdb.d directory to build new instances of the database.
 
-# 2021-10-15 - Database Menu
+## 2021-10-15 - Database Menu
 
                                     CHANGES
 REMOVED FILES:
@@ -77,12 +81,12 @@ checkoutDetail has foreign key relationships with product_id and checkout_id. Ha
 
 product contains new "code" column that was added for compatibility with previously written code in the template. 
 
-# 2021-10-9 - 2nd iteration
+## 2021-10-9 - 2nd iteration
 
 Bootstrap and JQuery have both been updated to their current version.
 
 The FAQs page was introuduced in this iteration as well as the hardcode menu.
 
 
-# 2021-10-12 - 3rd iteration
+## 2021-10-12 - 3rd iteration
 Laura - i updated/added code for 'Add to cart' on the Menu page for each item. you will see Brad's initial items list is still in there. he  had added 'small, medium, large' but we need to add also pricing for each and ensure those added to the cart properly reflect. NOTE: i added prices for smalls and we could add an additional .50 for each size up from that. example: SM: 3.00 MED: 3.50 LG: 4.00

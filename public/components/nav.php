@@ -7,13 +7,17 @@
                 <li class="nav-item"><a class="nav-link active" href="../Menu.php" style="font-family: 'Abril Fatface', serif;" data-bs-target="Menu.html">Menu</a></li>
                 <li class="nav-item"><a class="nav-link active" href="../FAQs.php" style="font-family: 'Abril Fatface', serif;" data-bs-target="FAQs.html">FAQs</a></li>
                 <li class="nav-item"><a class="nav-link active" href="../ContactUs.php" style="font-family: 'Abril Fatface', serif;" data-bs-target="Contact%20Us.html">Contact Us</a></li>
-                <li class="nav-item"><a class="nav-link active" href="../inventory.php" style="font-family: 'Abril Fatface', serif;" data-bs-target="inventory.html">Inventory</a></li>
+                <?php
+                if (!empty($_SESSION["empLoggedin"]) && ($_SESSION["empLoggedin"])) {
+                    echo '<li class="nav-item"><a class="nav-link active" href="../inventory.php" style="font-family: \'Abril Fatface\', serif;" data-bs-target="inventory.html">Inventory</a></li>';
+                }
+                ?>
                 <li class="nav-item"><a class="nav-link active" href="../employeeLogin.php" style="font-family: 'Abril Fatface', serif;" data-bs-target="employeeLogin.html">Employee Login</a></li>
                 <li class="nav-item"><a class="nav-link active" href="../cart.php" style="font-family: 'Abril Fatface', serif;"><img src="assets/img/cart.png"></a></li>
             </ul>
         </div>
         <?php
         if (!empty($_SESSION["firstname"]))
-        echo $_SESSION["firstname"] ?>
+            echo $_SESSION["firstname"] ?>
     </div>
 </nav>

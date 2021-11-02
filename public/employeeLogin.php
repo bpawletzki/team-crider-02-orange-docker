@@ -19,7 +19,7 @@ $username_err = $password_err = $login_err = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
-    $_SESSION["loggedin"] = false;
+    $_SESSION["empLoggedin"] = false;
     unset($_SESSION["id"]);
     unset($_SESSION["username"]);
     unset($_SESSION["firstname"]);
@@ -94,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             //session_start();
 
                             // Store data in session variables
-                            $_SESSION["loggedin"] = true;
+                            $_SESSION["empLoggedin"] = true;
                             $_SESSION["id"] = $id;
                             $_SESSION["username"] = $username;
                             $_SESSION["firstname"] = $firstname;
@@ -107,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             // Password is not valid, display a generic error message
                             $login_err = "Invalid username or password.";
                             $_SESSION["accesserror"] = $login_err;
-                            $_SESSION["loggedin"] = false;
+                            $_SESSION["empLoggedin"] = false;
                             unset($_SESSION["id"]);
                             unset($_SESSION["username"]);
                             unset($_SESSION["firstname"]);

@@ -40,11 +40,13 @@ head>
             <input type="text" id="productPrice" name="price"><br><br>
             <label for="productDescription">Product description:</label>
             <input type="text" id="productDescription" name="description"><br><br>
+            <label for="img">Select image:</label>
+            <input type="file" id=productImage" name="image" accept="image/*">
         </form>
-        <button type="add" form="inventoryForm" name="add" value="Add Item">Add Item</button>
-        <button type="delete" form="inventoryForm" name="delete" value="Delete Item">Delete Item</button>
-        <button type="update" form="inventoryForm" name="update" value="Update Item">Update Item Details</button>
-    </div><br>
+            <button type="add" form= "inventoryForm" name="add" value="Add Item" href="process.php?action=add">Add Item</button>
+            <button type="delete" form= "inventoryForm" name="delete" value="Delete Item" href="process.php?action=delete">Delete Item</button>
+            <button type="update" form= "inventoryForm" name="update" value="Update Item" href="process.php?action=update">Update Item Details</button>
+        </div><br>
 
     <?php include('./components/footer.php') ?>
 </body>

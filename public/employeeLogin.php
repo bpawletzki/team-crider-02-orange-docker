@@ -183,7 +183,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="employeeUserName">Employee User Name:</label>
             <input type="text" id="employeeUserName" name="employeeUserName"><br><br>
             <label for="employeePassword">Employee Password:</label>
-            <input type="text" id="employeePassword" name="employeePassword"><br><br>
+            <input type="password" id="employeePassword" name="employeePassword"><br><br>
         </form>
         <input type="submit" form="employeeLogin" name="login" value="Login"><br><br>
         <a href="employeeRegistration.php">Click here to Register</a>

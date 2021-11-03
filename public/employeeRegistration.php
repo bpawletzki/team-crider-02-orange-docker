@@ -102,7 +102,7 @@ session_start();
                 if (mysqli_stmt_execute($stmt)) {
                     $_SESSION["accesserror"] = "User created.";
                     // Redirect to login page
-                    header("location: login.php");
+                    header("location: employeeLogin.php");
                 } else {
                     echo "Oops! Something went wrong. Please try again later.";
                 }

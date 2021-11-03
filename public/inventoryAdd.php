@@ -30,7 +30,7 @@ head>
     ?>
 
     <div class="container site-section" id="inventoryDetails">
-        <h1 style="font-family: 'Abril Fatface', serif;">Update Inventory</h1>
+        <h1 style="font-family: 'Abril Fatface', serif;">Add Inventory</h1>
         <form method="post" action="process.php" id="inventoryForm">
             <label for="productName">Product Name:</label>
             <input type="text" id="productName" name="name"><br><br>
@@ -43,9 +43,7 @@ head>
             <label for="img">Select image:</label>
             <input type="file" id=productImage" name="image" accept="image/*">
         </form>
-            <button type="add" form= "inventoryForm" name="add" value="Add Item" href="process.php?action=add">Add Item</button>
-            <button type="delete" form= "inventoryForm" name="delete" value="Delete Item" href="process.php?action=delete">Delete Item</button>
-            <button type="update" form= "inventoryForm" name="update" value="Update Item" href="process.php?action=update">Update Item Details</button>
+            <button type="add" form= "inventoryForm" name="action" value="add" href="process.php">Add Item</button>
         </div><br>
 
     <?php include('./components/footer.php') ?>

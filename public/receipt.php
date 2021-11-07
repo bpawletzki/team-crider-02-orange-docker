@@ -45,7 +45,12 @@ $db_handle->connectDB();
             date_default_timezone_set("America/New_York");
             $date_clicked = date('Ymdhis');
             $reciept_uuid = guidv4();
-            $checkout = $db_handle->insertQuery("INSERT INTO checkout (checkoutTime, uuid) VALUE('$date_clicked', '$reciept_uuid')");
+            if ($_SESSION["empLoggedin"]) {
+                $user_id = $_SESSION["employeeid"];
+            } else {
+                $user_id = $_SERVER["REMOTE_ADDR"];
+            }
+            $checkout = $db_handle->insertQuery("INSERT INTO checkout (checkoutTime, uuid, accountId) VALUE('$date_clicked', '$reciept_uuid', '$user_id')");
             $checkout_id = $db_handle->getId("SELECT id FROM checkout WHERE uuid='$reciept_uuid'");
             $_SESSION["checkoutid"] = $checkout_id;
             foreach ($_SESSION["cart_item"] as $item) {

@@ -15,6 +15,7 @@ CREATE TABLE `checkout` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `checkoutTime` datetime NOT NULL,
   `uuid` VARCHAR(255) NOT NULL,
+  `accountid` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
 

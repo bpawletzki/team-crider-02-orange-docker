@@ -5,7 +5,7 @@ $db_handle = new DBController();
 if (!empty($_REQUEST["action"])) {
     switch ($_REQUEST["action"]) {
         case "add":
-            $product_name = $_POST["name"];
+            $product_name = $_POST["name"] . ' ' . $_POST["size"];
             $product_code = $_POST["code"];
             $product_price = $_POST["price"];
             $product_image = "product-images/" . $_POST["image"];

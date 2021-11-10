@@ -2,6 +2,13 @@
 Please put latest changes on top
 Use ISO-8601 date format: YYYY-MM-DD
 
+## 2021-11-08
+Author: Nick
+
+Changed docker/mariadb/clean/databaseBuild.sql and docker/mariadb/clean/databaseBuild.sql to create the checkout table with a new accountid column
+Changed employeeLogin.php to includ $employeeid on line 90. Meant to get logged in user's ID for new column. 
+Lines 48-52 in receipt.php check if the employee is logged in, if true it gets the employeeid. If false, it gets the guest's IP address. Either is used for accountid column in checkout table. Guests can be found by using the wildcards "%.%" or "%:%" in sql statement. This says to find a string that matches (any number of characters before).(any number of characters after), which an ipv4 meets the criteria for. Same concept for ipv6 
+
 ## 2021-10-30
 
 Laura - added inventory page with form. currently 'Submit' button nonfunctional. working on this code still. updated also assests/img, added image for inventory page

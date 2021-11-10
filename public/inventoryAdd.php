@@ -34,6 +34,12 @@ head>
         <form method="post" action="process.php" id="inventoryForm">
             <label for="productName">Product Name:</label>
             <input type="text" id="productName" name="name"><br><br>
+            Size:
+            <select name="size">
+                <option value="Small">Small</option>
+                <option value="Medium">Medium</option>
+                <option value="Large">Large</option>
+            </select><br><br>
             <label for="productCode">Product Code (SKU):</label>
             <input type="text" id="productCode" name="code"><br><br>
             <label for="productPrice">Product Price:</label>

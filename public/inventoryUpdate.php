@@ -6,6 +6,43 @@ if (is_null($_SESSION["empLoggedin"]) || !($_SESSION["empLoggedin"])) {
     header("location: employeeLogin.php");
     exit;
 }
+
+if (!empty($_POST['name'])) {
+    $_SESSION['searchName'] = "%" . $_POST['name'] . "%";
+    $_SESSION['placeName'] = $_POST['name'];
+} else {
+    $_SESSION['searchName'] = "%";
+    $_SESSION['placeName'] = "Name";
+};
+if (!empty($_POST['code'])) {
+    $_SESSION['searchCode'] = "%" . $_POST['code'] . "%";
+    $_SESSION['placeCode'] = $_POST['code'];
+} else {
+    $_SESSION['searchCode'] = "%";
+    $_SESSION['placeCode'] = "Code";
+};
+if (!empty($_POST['image'])) {
+    $_SESSION['searchImage'] = "%" . $_POST['image'] . "%";
+    $_SESSION['placeImage'] = $_POST['image'];
+} else {
+    $_SESSION['searchImage'] = "%";
+    $_SESSION['placeImage'] = "Image";
+};
+if (!empty($_POST['price'])) {
+    $_SESSION['searchPrice'] = "%" . $_POST['price'] . "%";
+    $_SESSION['placePrice'] = $_POST['price'];
+} else {
+    $_SESSION['searchPrice'] = "%";
+    $_SESSION['placePrice'] = "Price";
+};
+if (!empty($_POST['description'])) {
+    $_SESSION['searchDescription'] = "%" . $_POST['description'] . "%";
+    $_SESSION['placeDescription'] = $_POST['description'];
+} else {
+    $_SESSION['searchDescription'] = "%";
+    $_SESSION['placeDescription'] = "Description";
+};
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -33,14 +70,13 @@ if (is_null($_SESSION["empLoggedin"]) || !($_SESSION["empLoggedin"])) {
 
     <div class="container site-section" id="inventoryDetails">
         <h1 style="font-family: 'Abril Fatface', serif;">Update Inventory</h1>
-        <form><input type="text" id="searchId" class="search-key" placeholder="Id">
-        <input type="text" id="searchName" class="search-key" placeholder="Name">
-        <input type="text" id="searchCode" class="search-key" placeholder="Code">
-        <input type="text" id="searchImage" class="search-key" placeholder="Image">
-        <input type="text" id="searchPrice" class="search-key" placeholder="Price">
-        <input type="text" id="searchDescription" class="search-key" placeholder="Description">
-        <input type="submit" id="searchButton" value="Search">
-        <input type="reset" id="resetButton" value="reset">
+        <form method="post" action="inventoryUpdate.php">
+            <input type="text" id="searchName" class="search-key" name="name" placeholder="Name">
+            <input type="text" id="searchCode" class="search-key" name="code" placeholder="Code">
+            <input type="text" id="searchImage" class="search-key" name="image" placeholder="Image">
+            <input type="text" id="searchPrice" class="search-key" name="price" placeholder="Price">
+            <input type="text" id="searchDescription" class="search-key" name="description" placeholder="Description">
+            <input type="submit" id="searchButton" name="action" value="Search">
         </form>
         <div id="dataTable">
 
@@ -51,10 +87,15 @@ if (is_null($_SESSION["empLoggedin"]) || !($_SESSION["empLoggedin"])) {
     <script type="text/javascript" src="./assets/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./assets/bootstrap/js/bootstable.min.js"></script>
     <script type="text/javascript">
-    
         function myLoadTable() {
+            $('#searchButton').submit(
+                "inventoryAction.php", {
+                    action: "list"
+                });
             $('#dataTable').load(
-                "inventoryAction.php", { action: "list" },
+                "inventoryAction.php", {
+                    action: "list"
+                },
                 function() {
                     // https://github.com/t-edson/bootstable
                     $('#editableTable').SetEditable({

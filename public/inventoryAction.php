@@ -1,32 +1,7 @@
 <?php
+session_start();
+
 include_once("dbconfig.php");
-
-if (!empty($_POST['name'])) {
-    $fieldName = $_POST['name'];
-} else {
-    $fieldName = "";
-};
-if (!empty($_POST['code'])) {
-    $fieldCode = $_POST['code'];
-} else {
-    $fieldCode = "";
-};
-if (!empty($_POST['image'])) {
-    $fieldImage = $_POST['image'];
-} else {
-    $fieldImage = "";
-};
-if (!empty($_POST['price'])) {
-    $fieldPrice = $_POST['price'];
-} else {
-    $fieldPrice = "";
-};
-if (!empty($_POST['description'])) {
-    $fieldDescription = $_POST['description'];
-} else {
-    $fieldDescription = "";
-};
-
 
 if (!empty($_POST) && $_POST['action'] == 'edit' && $_POST['id']) {
     $updateField = '';
@@ -70,17 +45,22 @@ if (!empty($_POST) && $_POST['action'] == 'delete' && $_POST['id']) {
     echo json_encode($data);
 }
 if (!empty($_POST) && $_POST['action'] == 'list') {
+    if (empty($_SESSION['searchName'])) {$_SESSION['searchName'] = "%";};
+    if (empty($_SESSION['searchCode'])) {$_SESSION['searchCode'] = "%";};
+    if (empty($_SESSION['searchImage'])) {$_SESSION['searchImage'] = "%";};
+    if (empty($_SESSION['searchPrice'])) {$_SESSION['searchPrice'] = "%";};
+    if (empty($_SESSION['searchDescription'])) {$_SESSION['searchDescription'] = "%";};
+
     $searchField = '';
-    if (isset($_POST['name'])) {
-        $searchField .= "name='" . $_POST['name'] . "'";
-        $searchField .= "AND code='" . $_POST['code'] . "'";
-        $searchField .= "AND image='" . $_POST['image'] . "'";
-        $searchField .= "AND price='" . $_POST['price'] . "'";
-        $searchField .= "AND description='" . $_POST['description'] . "'";
-    }
-    $sqlQuery = "SELECT id, name, code, image, price, description FROM product";
+    $searchField .= "name LIKE '" . $_SESSION['searchName'] . "' ";
+    $searchField .= "AND code LIKE '" . $_SESSION['searchCode'] . "' ";
+    $searchField .= "AND image LIKE '" . $_SESSION['searchImage'] . "' ";
+    $searchField .= "AND price LIKE '" . $_SESSION['searchPrice'] . "' ";
+    $searchField .= "AND description LIKE '" . $_SESSION['searchDescription'] . "' ";
+    $sqlQuery = "SELECT id, name, code, image, price, description FROM product WHERE " . $searchField;
     $resultSet = mysqli_query($link, $sqlQuery);
 ?>
+
     <script type="text/javascript" src="./assets/bootstrap/js/bootstable.min.js"></script>
     <table id="editableTable" class="table table-bordered table-responsivetable-striped">
         <thead>

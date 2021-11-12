@@ -13,11 +13,10 @@ if (!empty($_GET["action"])) {
 				if (!empty($_SESSION["cart_item"])) {
 					$resultsArraySearch = preg_grep("/.*?" . $productByCode[0]["code"] . $_POST["creamer-options"] . "*?./i", array_keys($_SESSION["cart_item"]));
 					if ($resultsArraySearch) {
-								if (empty($_SESSION["cart_item"][$k]["quantity"])) {
-									$_SESSION["cart_item"][$k]["quantity"] = 0;
-								}
-								$_SESSION["cart_item"][$k]["quantity"] += $_POST["quantity"];
-						
+						if (empty($_SESSION["cart_item"][$k]["quantity"])) {
+							$_SESSION["cart_item"][$k]["quantity"] = 0;
+						}
+						$_SESSION["cart_item"][$k]["quantity"] += $_POST["quantity"];
 					} else {
 						$_SESSION["cart_item"] = array_merge($_SESSION["cart_item"], $itemArray);
 					}
@@ -98,7 +97,7 @@ if (!empty($_GET["action"])) {
 							<td style="text-align:right;"><?php echo $item["quantity"]; ?></td>
 							<td style="text-align:right;"><?php echo "$ " . $item["price"]; ?></td>
 							<td style="text-align:right;"><?php echo "$ " . number_format($item_price, 2); ?></td>
-							<td style="text-align:center;"><a href="cart.php?action=remove&code=<?php echo $item["code"]; ?>" class="btnRemoveAction"><img src="./assets/img/icon-delete.png" alt="Remove Item" /></a></td>
+							<td style="text-align:center;"><a href="cart.php?action=remove&code=<?php echo $item["code"].$item["creamer"]; ?>" class="btnRemoveAction"><img src="./assets/img/icon-delete.png" alt="Remove Item" /></a></td>
 						</tr>
 					<?php
 						$total_quantity += $item["quantity"];

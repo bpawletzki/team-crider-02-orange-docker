@@ -45,20 +45,21 @@ $db_handle->connectDB();
             date_default_timezone_set("America/New_York");
             $date_clicked = date('Ymdhis');
             $reciept_uuid = guidv4();
-            if ($_SESSION["empLoggedin"]) {
+            if (!empty($_SESSION["empLoggedin"]) && $_SESSION["empLoggedin"]) {
                 $user_id = $_SESSION["employeeid"];
             } else {
                 $user_id = $_SERVER["REMOTE_ADDR"];
             }
-            $checkout = $db_handle->insertQuery("INSERT INTO checkout (checkoutTime, uuid, accountId) VALUE('$date_clicked', '$reciept_uuid', '$user_id')");
+            $checkout = $db_handle->insertQuery("INSERT INTO checkout (checkoutTime, uuid, accountid) VALUE('$date_clicked', '$reciept_uuid', '$user_id')");
             $checkout_id = $db_handle->getId("SELECT id FROM checkout WHERE uuid='$reciept_uuid'");
             $_SESSION["checkoutid"] = $checkout_id;
             foreach ($_SESSION["cart_item"] as $item) {
                 $productId = $item["id"];
                 $productQuantity = $item["quantity"];
                 $productPrice = $item["quantity"] * $item["price"];
-                $detail = $db_handle->insertQuery("INSERT INTO checkoutDetail (price, product_id, checkout_id, quantity)
-        VALUES('$productPrice','$productId','$checkout_id','$productQuantity')");
+                $productOption = $item["creamer"];
+                $detail = $db_handle->insertQuery("INSERT INTO checkoutDetail (price, product_id, checkout_id, quantity, options)
+        VALUES('$productPrice','$productId','$checkout_id','$productQuantity', '$productOption')");
             }
         }
         //initialzing total price, receipt number and date/time variables
@@ -68,7 +69,7 @@ $db_handle->connectDB();
         if (!empty($_SESSION["checkoutid"])) {
 
             //selectng all items from coffee details table
-            $results = $db_handle->runQuery("SELECT checkoutDetail.product_id, checkoutDetail.id, checkoutDetail.quantity, checkoutDetail.price, product.name FROM checkoutDetail JOIN product ON checkoutDetail.product_id=product.id WHERE checkout_id='" . $_SESSION["checkoutid"] . "'");
+            $results = $db_handle->runQuery("SELECT checkoutDetail.product_id, checkoutDetail.id, checkoutDetail.quantity, checkoutDetail.price, product.name, checkoutDetail.options FROM checkoutDetail JOIN product ON checkoutDetail.product_id=product.id WHERE checkout_id='" . $_SESSION["checkoutid"] . "'");
             //looping through the items to display them individually along side their prices and quantities
             foreach ($results as $result) {
                 $product_id = $result["product_id"];
@@ -76,6 +77,7 @@ $db_handle->connectDB();
                 $id = $result["id"];
                 $qty = $result["quantity"];
                 $price = $result["price"];
+                $productOption = $result["options"];
 
                 //selecting date/time from the checkout table and id which will used for the reciept number    
                 $dateTime = $db_handle->runQuery("SELECT * FROM checkout WHERE id='" . $_SESSION["checkoutid"] . "'");
@@ -92,20 +94,20 @@ $db_handle->connectDB();
 
                 //displaying all required information collected from the DB
                 echo
-                $name . "<br>" .
-                    "Quantity: " .
-                    $qty . "<br>" . "Price: " .
-                    $price . "<br><br>";
+                $name . "<br>" . "Quantity: " . $qty .
+                    "<br>" . "Creamer: " . $productOption .
+                    "<br>" . "Price: $" . number_format($price, 2) .
+                    "<br><br>";
                 $totalPrice += $price;
             }
             echo
-            "Total Cost: " . $totalPrice . "<br>" .
+            "Total Cost: $" . number_format($totalPrice, 2) . "<br>" .
                 "Checkout Time/Date: " .
                 $dateAndTime . "<br>" . "Receipt Number: " .
                 $receiptNum;
-                unset($_SESSION["cart_item"]);
-                unset($checkout_id);
-                unset($_SESSION["checkoutid"]);
+            unset($_SESSION["cart_item"]);
+            unset($checkout_id);
+            unset($_SESSION["checkoutid"]);
         } else {
             echo "No items in cart.";
         }

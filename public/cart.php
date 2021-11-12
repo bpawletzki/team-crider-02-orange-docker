@@ -2,126 +2,125 @@
 session_start();
 require_once("dbcontroller.php");
 $db_handle = new DBController();
-if(!empty($_GET["action"])) {
-switch($_GET["action"]) {
-	case "add":
-		if(!empty($_POST["quantity"])) {
-			$productByCode = $db_handle->runQuery("SELECT * FROM product WHERE code='" . $_GET["code"] . "'");
-			$itemArray = array($productByCode[0]["code"]=>array('name'=>$productByCode[0]["name"], 'code'=>$productByCode[0]["code"], 'quantity'=>$_POST["quantity"], 'price'=>$productByCode[0]["price"], 'image'=>$productByCode[0]["image"], 'id'=>$productByCode[0]["id"]));
-			echo $itemArray;
-			if(!empty($_SESSION["cart_item"])) {
-				if(in_array($productByCode[0]["code"],array_keys($_SESSION["cart_item"]))) {
-					foreach($_SESSION["cart_item"] as $k => $v) {
-							if($productByCode[0]["code"] == $k) {
-								if(empty($_SESSION["cart_item"][$k]["quantity"])) {
-									$_SESSION["cart_item"][$k]["quantity"] = 0;
-								}
-								$_SESSION["cart_item"][$k]["quantity"] += $_POST["quantity"];
-							}
+if (!empty($_GET["action"])) {
+	switch ($_GET["action"]) {
+		case "add":
+			if (!empty($_POST["quantity"])) {
+				$productByCode = $db_handle->runQuery("SELECT * FROM product WHERE code='" . $_GET["code"] . "'");
+				$k = $productByCode[0]["code"] . $_POST["creamer-options"];
+				$itemArray = array($k => array('name' => $productByCode[0]["name"], 'code' => $productByCode[0]["code"], 'quantity' => $_POST["quantity"], 'price' => $productByCode[0]["price"], 'image' => $productByCode[0]["image"], 'id' => $productByCode[0]["id"], 'creamer' => $_POST["creamer-options"]));
+				// echo $itemArray;
+				if (!empty($_SESSION["cart_item"])) {
+					$resultsArraySearch = preg_grep("/.*?" . $productByCode[0]["code"] . $_POST["creamer-options"] . "*?./i", array_keys($_SESSION["cart_item"]));
+					if ($resultsArraySearch) {
+						if (empty($_SESSION["cart_item"][$k]["quantity"])) {
+							$_SESSION["cart_item"][$k]["quantity"] = 0;
+						}
+						$_SESSION["cart_item"][$k]["quantity"] += $_POST["quantity"];
+					} else {
+						$_SESSION["cart_item"] = array_merge($_SESSION["cart_item"], $itemArray);
 					}
 				} else {
-					$_SESSION["cart_item"] = array_merge($_SESSION["cart_item"],$itemArray);
+					$_SESSION["cart_item"] = $itemArray;
 				}
-			} else {
-				$_SESSION["cart_item"] = $itemArray;
 			}
-		}
-	break;
-	case "remove":
-		if(!empty($_SESSION["cart_item"])) {
-			foreach($_SESSION["cart_item"] as $k => $v) {
-					if($_GET["code"] == $k)
-						unset($_SESSION["cart_item"][$k]);				
-					if(empty($_SESSION["cart_item"]))
+			break;
+		case "remove":
+			if (!empty($_SESSION["cart_item"])) {
+				foreach ($_SESSION["cart_item"] as $k => $v) {
+					if ($_GET["code"] == $k)
+						unset($_SESSION["cart_item"][$k]);
+					if (empty($_SESSION["cart_item"]))
 						unset($_SESSION["cart_item"]);
+				}
 			}
-		}
-	break;
-	case "empty":
-		unset($_SESSION["cart_item"]);
-	break;
-	case "checkout":
-		// if(!empty($_SESSION["cart_item"])) {
-		// 	date_default_timezone_set("America/New_York");
-		// 	$date_clicked = date('Ymdhis');
-		// 	$checkout = $db_handle->insertQuery("INSERT INTO checkout (checkoutTime) VALUE('$date_clicked')");
-		// 	$checkout_id = $db_handle->getId("SELECT id FROM checkout ORDER BY checkoutTime DESC LIMIT 1");
-		// 	$_SESSION["checkoutid"] = $checkout_id;
-		// 	foreach($_SESSION["cart_item"] as $item) {
-		// 		$productId = $item["id"];
-		// 		$productQuantity = $item["quantity"];
-		// 		$productPrice = $item["quantity"]*$item["price"];
-		// 		$detail = $db_handle->insertQuery("INSERT INTO checkoutDetail (price, product_id, checkout_id, quantity)
-		// 		VALUES('$productPrice','$productId','$checkout_id','$productQuantity')");
-		// 	 }
-		// }
-}
+			break;
+		case "empty":
+			unset($_SESSION["cart_item"]);
+			break;
+		case "checkout":
+			// if(!empty($_SESSION["cart_item"])) {
+			// 	date_default_timezone_set("America/New_York");
+			// 	$date_clicked = date('Ymdhis');
+			// 	$checkout = $db_handle->insertQuery("INSERT INTO checkout (checkoutTime) VALUE('$date_clicked')");
+			// 	$checkout_id = $db_handle->getId("SELECT id FROM checkout ORDER BY checkoutTime DESC LIMIT 1");
+			// 	$_SESSION["checkoutid"] = $checkout_id;
+			// 	foreach($_SESSION["cart_item"] as $item) {
+			// 		$productId = $item["id"];
+			// 		$productQuantity = $item["quantity"];
+			// 		$productPrice = $item["quantity"]*$item["price"];
+			// 		$detail = $db_handle->insertQuery("INSERT INTO checkoutDetail (price, product_id, checkout_id, quantity)
+			// 		VALUES('$productPrice','$productId','$checkout_id','$productQuantity')");
+			// 	 }
+			// }
+	}
 }
 ?>
 <HTML>
 
 <HEAD>
-    <TITLE>Love You A Latte Order</TITLE>
-    <?php include('./components/header.php') ?>
+	<TITLE>Love You A Latte Order</TITLE>
+	<?php include('./components/header.php') ?>
 </HEAD>
 
 <BODY>
-    <?php include('./components/nav.php') ?>
-    <div id="shopping-cart">
-        <div class="txt-heading">Ordered Items</div>
+	<?php include('./components/nav.php') ?>
+	<div id="shopping-cart">
+		<div class="txt-heading">Ordered Items</div>
 
-        <a id="btnEmpty" href="cart.php?action=empty">Empty Cart</a>
-        <?php
-if(isset($_SESSION["cart_item"])){
-    $total_quantity = 0;
-    $total_price = 0;
-?>
-        <table class="tbl-cart" cellpadding="10" cellspacing="1">
-            <tbody>
-                <tr>
-                    <th style="text-align:left;">Name</th>
-                    <th style="text-align:left;">Code</th>
-                    <th style="text-align:right;" width="5%">Quantity</th>
-                    <th style="text-align:right;" width="10%">Order Price</th>
-                    <th style="text-align:right;" width="10%">Price</th>
-                    <th style="text-align:center;" width="5%">Remove</th>
-                </tr>
-                <?php		
-    foreach ($_SESSION["cart_item"] as $item){
-        $item_price = $item["quantity"]*$item["price"];
+		<a id="btnEmpty" href="cart.php?action=empty">Empty Cart</a>
+		<?php
+		if (isset($_SESSION["cart_item"])) {
+			$total_quantity = 0;
+			$total_price = 0;
 		?>
-                <tr>
-                    <td><img src="<?php echo $item["image"]; ?>" class="cart-item-image" /><?php echo $item["name"]; ?>
-                    </td>
-                    <td><?php echo $item["code"]; ?></td>
-                    <td style="text-align:right;"><?php echo $item["quantity"]; ?></td>
-                    <td style="text-align:right;"><?php echo "$ ".$item["price"]; ?></td>
-                    <td style="text-align:right;"><?php echo "$ ". number_format($item_price,2); ?></td>
-                    <td style="text-align:center;"><a href="cart.php?action=remove&code=<?php echo $item["code"]; ?>"
-                            class="btnRemoveAction"><img src="./assets/img/icon-delete.png" alt="Remove Item" /></a></td>
-                </tr>
-                <?php
-				$total_quantity += $item["quantity"];
-				$total_price += ($item["price"]*$item["quantity"]);
-		}		?>
+			<table class="tbl-cart" cellpadding="10" cellspacing="1">
+				<tbody>
+					<tr>
+						<th style="text-align:left;">Name</th>
+						<th style="text-align:left;">Creamer Options</th>
+						<th style="text-align:left;">Code</th>
+						<th style="text-align:right;" width="5%">Quantity</th>
+						<th style="text-align:right;" width="10%">Order Price</th>
+						<th style="text-align:right;" width="10%">Price</th>
+						<th style="text-align:center;" width="5%">Remove</th>
+					</tr>
+					<?php
+					foreach ($_SESSION["cart_item"] as $item) {
+						$item_price = $item["quantity"] * $item["price"];
+					?>
+						<tr>
+							<td><img src="<?php echo $item["image"]; ?>" class="cart-item-image" /><?php echo $item["name"]; ?>
+							</td>
+							<td> <?php echo $item["creamer"]; ?></td><!-- the creamer options are supposed to print, the variable is added at the end of line 10-->
+							<td><?php echo $item["code"]; ?></td>
+							<td style="text-align:right;"><?php echo $item["quantity"]; ?></td>
+							<td style="text-align:right;"><?php echo "$ " . $item["price"]; ?></td>
+							<td style="text-align:right;"><?php echo "$ " . number_format($item_price, 2); ?></td>
+							<td style="text-align:center;"><a href="cart.php?action=remove&code=<?php echo $item["code"].$item["creamer"]; ?>" class="btnRemoveAction"><img src="./assets/img/icon-delete.png" alt="Remove Item" /></a></td>
+						</tr>
+					<?php
+						$total_quantity += $item["quantity"];
+						$total_price += ($item["price"] * $item["quantity"]);
+					}		?>
 
-                <tr>
-                    <td colspan="2" align="right">Total:</td>
-                    <td align="right"><?php echo $total_quantity; ?></td>
-                    <td align="right" colspan="2"><strong><?php echo "$ ".number_format($total_price, 2); ?></strong>
-                    </td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-        <?php
-} else {
-?>
-        <div class="no-records">Your Cart is Empty</div>
-        <?php 
-}
-?>		<a id="btnEmpty" href="receipt.php?action=checkout">Checkout</a>
-    </div>
+					<tr>
+						<td colspan="2" align="right">Total:</td>
+						<td align="right"><?php echo $total_quantity; ?></td>
+						<td align="right" colspan="2"><strong><?php echo "$ " . number_format($total_price, 2); ?></strong>
+						</td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+		<?php
+		} else {
+		?>
+			<div class="no-records">Your Cart is Empty</div>
+		<?php
+		}
+		?> <a id="btnEmpty" href="receipt.php?action=checkout">Checkout</a>
+	</div>
 </BODY>
 
 </HTML>

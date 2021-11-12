@@ -38,6 +38,16 @@ $db_handle = new DBController();
                         <div class="product-tile-footer">
                         <div class="product-title"><?php echo $product_array[$key]["name"]; ?></div>
                         <div class="product-description"><?php echo $product_array[$key]["description"]; ?></div>
+                        <select name="creamer-options"> /<!-- the creamer options dropdown menu-->
+                        <option value="None">Creamer Options</option>
+                        <option value="Skim">Skim</option>
+                        <option value="2%">2%</option>
+                        <option value="Whole">Whole</option>
+                        <option value="Soy">Soy</option>
+                        <option value="Almond">Almond</option>
+                        <option value="None">None</option>
+
+                        </select>
                         <br>
                         <div class="product-price"><?php echo "$".$product_array[$key]["price"]; ?></div>
                         <div class="cart-action"><input type="text" class="product-quantity" name="quantity" value="1" size="2" /><input type="submit" value="Add to Cart" class="btnAddAction" /></div>

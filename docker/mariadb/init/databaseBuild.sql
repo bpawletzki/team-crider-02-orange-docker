@@ -25,6 +25,7 @@ CREATE TABLE `checkoutDetail` (
   `quantity` int(11) NOT NULL,
   `price` decimal(15, 2) NOT NULL,
   `checkout_id` int(11) NOT NULL,
+  `options` varchar(256) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_to_product` (`product_id`),
   KEY `fk_to_checkout` (`checkout_id`),

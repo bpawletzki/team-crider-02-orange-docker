@@ -39,13 +39,13 @@ $db_handle = new DBController();
                         <div class="product-title"><?php echo $product_array[$key]["name"]; ?></div>
                         <div class="product-description"><?php echo $product_array[$key]["description"]; ?></div>
                         <select name="creamer-options"> /<!-- the creamer options dropdown menu-->
-                        <option value=”0”>Creamer Options</option>
-                        <option value=”1”>Skim</option>
-                        <option value=”2”>2%</option>
-                        <option value=”3”>Whole</option>
-                        <option value=”4”>Soy</option>
-                        <option value=”5”>Almond</option>
-                        <option value=”6”>None</option>
+                        <option value="None">Creamer Options</option>
+                        <option value="Skim">Skim</option>
+                        <option value="2%">2%</option>
+                        <option value="Whole">Whole</option>
+                        <option value="Soy">Soy</option>
+                        <option value="Almond">Almond</option>
+                        <option value="None">None</option>
 
                         </select>
                         <br>

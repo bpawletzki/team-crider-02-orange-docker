@@ -7,8 +7,8 @@ switch($_GET["action"]) {
 	case "add":
 		if(!empty($_POST["quantity"])) {
 			$productByCode = $db_handle->runQuery("SELECT * FROM product WHERE code='" . $_GET["code"] . "'");
-			$itemArray = array($productByCode[0]["code"]=>array('name'=>$productByCode[0]["name"], 'code'=>$productByCode[0]["code"], 'quantity'=>$_POST["quantity"], 'price'=>$productByCode[0]["price"], 'image'=>$productByCode[0]["image"], 'id'=>$productByCode[0]["id"], $creamer=$_POST['creamer-options']));
-			echo $itemArray;
+			$itemArray = array($productByCode[0]["code"].$_POST["creamer-options"]=>array('name'=>$productByCode[0]["name"], 'code'=>$productByCode[0]["code"], 'quantity'=>$_POST["quantity"], 'price'=>$productByCode[0]["price"], 'image'=>$productByCode[0]["image"], 'id'=>$productByCode[0]["id"], 'creamer'=>$_POST["creamer-options"]));
+			// echo $itemArray;
 			if(!empty($_SESSION["cart_item"])) {
 				if(in_array($productByCode[0]["code"],array_keys($_SESSION["cart_item"]))) {
 					foreach($_SESSION["cart_item"] as $k => $v) {
@@ -94,7 +94,7 @@ if(isset($_SESSION["cart_item"])){
                 <tr>
                     <td><img src="<?php echo $item["image"]; ?>" class="cart-item-image" /><?php echo $item["name"]; ?>
                     </td>
-					<td <?php echo $creamer; ?></td><!-- the creamer options are supposed to print, the variable is added at the end of line 10-->
+					<td> <?php echo $item["creamer"]; ?></td><!-- the creamer options are supposed to print, the variable is added at the end of line 10-->
                     <td><?php echo $item["code"]; ?></td>
                     <td style="text-align:right;"><?php echo $item["quantity"]; ?></td>
                     <td style="text-align:right;"><?php echo "$ ".$item["price"]; ?></td>

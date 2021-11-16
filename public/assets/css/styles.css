@@ -19,7 +19,7 @@ body {
 
 #Menuintro {
   text-align: center;
-  padding: 50px;
+  padding: 80px;
   background: url("../../assets/img/homepage.jpg");
   background-size: cover;
 }
@@ -62,7 +62,7 @@ body {
 #Menuintro .jumbotron {
   border-radius: 20px;
   padding: 40px;
-  background-color: #8b4513;
+  background-color: rgba(255,255,255,0.75);
   max-width: 300px;
   margin: 0 auto;
 }
@@ -70,7 +70,7 @@ body {
 #FAQintro .jumbotron {
   border-radius: 20px;
   padding: 40px;
-  background-color: rgba(0,0,0,0.12);
+  background-color: rgba(255,255,255,0.75);
   max-width: 300px;
   margin: 0 auto;
 }
@@ -174,4 +174,14 @@ body {
 #menubody {
   background-color: saddlebrown;
 }
+
+#navbarDropdown {
+  font-weight: bold;
+  color: white;
+}
+
+.dropdown-menu  {
+  background-color: saddlebrown;
+}
+
 

@@ -18,7 +18,7 @@ $db_handle = new DBController();
 <?php include('./components/nav.php') ?>
     <div id="Menuintro">
         <div class="rounded border-light jumbotron py-5 px-4">
-            <h1 style="font-family: 'Abril Fatface', serif;">Hot Drinks</h1>
+            <h1 style="font-family: 'Abril Fatface', serif;">Frozen Drinks</h1>
             <p>Enjoy a Delicious cup of Coffee</p>
         </div>
     </div>
@@ -28,7 +28,7 @@ $db_handle = new DBController();
             <div id="product-grid">
 	            <!-- <div class="txt-heading">Menu Items</div> -->
                 <?php
-                $product_array = $db_handle->runQuery("SELECT * FROM product WHERE category='hot' ORDER BY id ASC");
+                $product_array = $db_handle->runQuery("SELECT * FROM product WHERE category='frozen' ORDER BY id ASC");
                 if (!empty($product_array)) { 
                     foreach($product_array as $key=>$value){
                 ?>

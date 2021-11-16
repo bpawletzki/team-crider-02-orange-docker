@@ -7,11 +7,11 @@ if (!empty($_GET["action"])) {
 		case "add":
 			if (!empty($_POST["quantity"])) {
 				$productByCode = $db_handle->runQuery("SELECT * FROM product WHERE code='" . $_GET["code"] . "'");
-				$k = $productByCode[0]["code"] . $_POST["creamer-options"];
-				$itemArray = array($k => array('name' => $productByCode[0]["name"], 'code' => $productByCode[0]["code"], 'quantity' => $_POST["quantity"], 'price' => $productByCode[0]["price"], 'image' => $productByCode[0]["image"], 'id' => $productByCode[0]["id"], 'creamer' => $_POST["creamer-options"]));
+				$k = $productByCode[0]["code"] . $_POST["creamer-options"] . $_POST["sweetener-options"];
+				$itemArray = array($k => array('name' => $productByCode[0]["name"], 'code' => $productByCode[0]["code"], 'quantity' => $_POST["quantity"], 'price' => $productByCode[0]["price"], 'image' => $productByCode[0]["image"], 'id' => $productByCode[0]["id"], 'creamer' => $_POST["creamer-options"], 'sweetener' => $_POST["sweetener-options"]));
 				// echo $itemArray;
 				if (!empty($_SESSION["cart_item"])) {
-					$resultsArraySearch = preg_grep("/.*?" . $productByCode[0]["code"] . $_POST["creamer-options"] . "*?./i", array_keys($_SESSION["cart_item"]));
+					$resultsArraySearch = preg_grep("/.*?" . $productByCode[0]["code"] . $_POST["creamer-options"] . $_POST["sweetener-options"] . "*?./i", array_keys($_SESSION["cart_item"]));
 					if ($resultsArraySearch) {
 						if (empty($_SESSION["cart_item"][$k]["quantity"])) {
 							$_SESSION["cart_item"][$k]["quantity"] = 0;
@@ -79,6 +79,7 @@ if (!empty($_GET["action"])) {
 					<tr>
 						<th style="text-align:left;">Name</th>
 						<th style="text-align:left;">Creamer Options</th>
+						<th style="text-align:left;">Sweetner Options</th>
 						<th style="text-align:left;">Code</th>
 						<th style="text-align:right;" width="5%">Quantity</th>
 						<th style="text-align:right;" width="10%">Order Price</th>
@@ -93,11 +94,12 @@ if (!empty($_GET["action"])) {
 							<td><img src="<?php echo $item["image"]; ?>" class="cart-item-image" /><?php echo $item["name"]; ?>
 							</td>
 							<td> <?php echo $item["creamer"]; ?></td><!-- the creamer options are supposed to print, the variable is added at the end of line 10-->
+							<td> <?php echo $item["sweetener"]; ?></td><!-- the sweetener options are supposed to print, the variable is added at the end of line 10-->
 							<td><?php echo $item["code"]; ?></td>
 							<td style="text-align:right;"><?php echo $item["quantity"]; ?></td>
 							<td style="text-align:right;"><?php echo "$ " . $item["price"]; ?></td>
 							<td style="text-align:right;"><?php echo "$ " . number_format($item_price, 2); ?></td>
-							<td style="text-align:center;"><a href="cart.php?action=remove&code=<?php echo $item["code"].$item["creamer"]; ?>" class="btnRemoveAction"><img src="./assets/img/icon-delete.png" alt="Remove Item" /></a></td>
+							<td style="text-align:center;"><a href="cart.php?action=remove&code=<?php echo $item["code"].$item["creamer"]; ?><?php echo $item["code"].$item["sweetener"]; ?>" class="btnRemoveAction"><img src="./assets/img/icon-delete.png" alt="Remove Item" /></a></td>
 						</tr>
 					<?php
 						$total_quantity += $item["quantity"];

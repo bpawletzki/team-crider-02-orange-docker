@@ -46,7 +46,14 @@ $db_handle = new DBController();
                         <option value="Soy">Soy</option>
                         <option value="Almond">Almond</option>
                         <option value="None">None</option>
-
+                        </select>
+                        <select name="sweetener-options"> /<!-- the sweetener options dropdown menu-->
+                        <option value="None">Sweetener Options</option>
+                        <option value="Sugar">Sugar</option>
+                        <option value="Sweet and low">Sweet and low</option>
+                        <option value="Stevia">Stevia</option>
+                        <option value="Honey">Honey</option>
+                        <option value="None">None</option>
                         </select>
                         <br>
                         <div class="product-price"><?php echo "$".$product_array[$key]["price"]; ?></div>

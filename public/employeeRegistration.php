@@ -8,7 +8,90 @@ session_start();
 
     <title>Love You A Latte</title>
     <?php include('./components/header.php') ?>
+    <script type="text/javascript" src="./assets/js/jquery.min.js"></script>
 
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var validUsername = false;
+            var validPassword = false;
+
+            $('#employeeUserName').keyup(function() {
+                var username = $('#employeeUserName').val();
+
+                if (validPassword) {
+                    $('#submitButton').show();
+                }
+
+                var regEx_username = /^[a-z]+$/;
+                validUsername = regEx_username.test(username);
+                if (validUsername) {
+                    $('#divUsernameLowercase').css("color", "green")
+                } else {
+                    $('#divUsernameLowercase').css("color", "red")
+                    $('#submitButton').hide();
+                }
+
+                if (validPassword && validUsername) {
+                    $('#submitButton').show();
+                }
+            });
+            $('#employeePassword').keyup(function() {
+                var password = $('#employeePassword').val();
+
+                if (validUsername) {
+                    $('#submitButton').show();
+                }
+                var regEx_PasswordLowercase = /[a-z]+/;
+                var regEx_PasswordUppercase = /[A-Z]+/;
+                var regEx_PasswordNumber = /[0-9]+/;
+                var regEx_PasswordSpecialchar = /[\_\-\%\#\@\!\*]+/;
+                var regEx_Password6char = /.{6,}/;
+
+                var validPasswordLowercase = regEx_PasswordLowercase.test(password);
+                var validPasswordUppercase = regEx_PasswordUppercase.test(password);
+                var validPasswordNumber = regEx_PasswordNumber.test(password);
+                var validPasswordSpecialchar = regEx_PasswordSpecialchar.test(password);
+                var validPassword6char = regEx_Password6char.test(password);
+
+                if (validPasswordLowercase) {
+                    $('#divPasswordLowercase').css("color", "green")
+                } else {
+                    $('#divPasswordLowercase').css("color", "red")
+                }
+                if (validPasswordUppercase) {
+                    $('#divPasswordUppercase').css("color", "green")
+                } else {
+                    $('#divPasswordUppercase').css("color", "red")
+                }
+                if (validPasswordNumber) {
+                    $('#divPasswordNumber').css("color", "green")
+                } else {
+                    $('#divPasswordNumber').css("color", "red")
+                }
+                if (validPasswordSpecialchar) {
+                    $('#divPasswordSpecialchar').css("color", "green")
+                } else {
+                    $('#divPasswordSpecialchar').css("color", "red")
+                }
+                if (validPassword6char) {
+                    $('#divPassword6char').css("color", "green")
+                } else {
+                    $('#divPassword6char').css("color", "red")
+                }
+
+                if (!validPasswordLowercase || !validPasswordUppercase || !validPasswordNumber || !validPasswordSpecialchar || !validPassword6char) {
+                    $('#submitButton').hide();
+                    validPassword = false;
+                } else {
+                    validPassword = true;
+                }
+
+                if (validPassword && validUsername) {
+                    $('#submitButton').show();
+                }
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -102,7 +185,7 @@ session_start();
                 if (mysqli_stmt_execute($stmt)) {
                     $_SESSION["accesserror"] = "User created.";
                     // Redirect to login page
-                    header("location: employeeLogin.php");
+                    //header("location: employeeLogin.php");
                 } else {
                     echo "Oops! Something went wrong. Please try again later.";
                 }
@@ -141,15 +224,25 @@ session_start();
             <input type="text" id="employeeUserID" name="employeeUserID"><br><br>
             <label for="employeeUserName">Employee User Name:</label>
             <input type="text" id="employeeUserName" name="employeeUserName"><br><br>
+            User Name validation
+            <div id="divUsernameLowercase" style="color: red;">Only Lowercase letters.</div>
+            <br>
+
             <label for="employeePassword">Employee Password:</label>
             <input type="text" id="employeePassword" name="employeePassword"><br><br>
+            Password validation
+            <div id="divPasswordLowercase" style="color: red;">Lowercase letter.</div>
+            <div id="divPasswordUppercase" style="color: red;">Uppercase letter</div>
+            <div id="divPasswordNumber" style="color: red;">Number</div>
+            <div id="divPasswordSpecialchar" style="color: red;">Special Character _-%#@!*</div>
+            <div id="divPassword6char" style="color: red;">Six characters long</div>
+            <br>
             <label for="employeePasswordConfirm">Confirm Employee Password:</label>
             <input type="text" id="employeePasswordConfirm" name="employeePasswordConfirm"><br><br>
         </form>
-        <input type="submit" form="employeeRegister" name="register" value="Register"><br><br>
+        <input type="submit" id="submitButton" form="employeeRegister" name="register" value="Register"><br><br>
         <a href="employeeLogin.php">Click here to return to Login if already registered</a>
     </div><br>
-
 
     <?php include('./components/footer.php') ?>
 </body>

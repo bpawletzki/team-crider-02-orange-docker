@@ -15,7 +15,7 @@ session_start();
 <?php include('./components/nav.php') ?>
 
     <div id="FAQintro">
-        <div class="bg-light border rounded border-light jumbotron py-5 px-4">
+        <div class="rounded border-light jumbotron py-5 px-4">
             <h1 style="font-family: 'Abril Fatface', serif;">FAQs</h1>
         </div>
     </div>

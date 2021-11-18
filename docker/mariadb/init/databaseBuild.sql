@@ -150,6 +150,10 @@ CREATE TABLE employees (
     employeeid VARCHAR(128) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );
+
+  INSERT INTO `love_you_a_latte`.`employees` (`id`,`username`,`password`,`firstname`,`lastname`,`employeeid`) VALUES
+('1','admin','$2y$10$aqyI1V2FgBtEU/xsx9s.a.hM48PBLrSPshVndCyrIwx9TpPnRFxxS', 'Super', 'Admin', '0');
+
 CREATE TABLE accessfailed (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL,

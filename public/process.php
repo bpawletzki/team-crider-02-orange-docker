@@ -7,7 +7,7 @@ if (!empty($_REQUEST["action"])) {
         case "add":
             $product_name = $_POST["name"] . ' ' . $_POST["size"];
             $product_code = $_POST["code"];
-            $product_code = $_POST["category"];
+            $product_category = $_POST["category"];
             $product_price = $_POST["price"];
             $product_image = "product-images/" . $_POST["image"];
             $product_description = $_POST["description"];

@@ -56,6 +56,7 @@ $db_handle = new DBController();
                         <option value="None">None</option>
                         </select>
                         <br>
+                        <br>
                         <div class="product-price"><?php echo "$".$product_array[$key]["price"]; ?></div>
                         <div class="cart-action"><input type="text" class="product-quantity" name="quantity" value="1" size="2" /><input type="submit" value="Add to Cart" class="btnAddAction" /></div>
                         </div>

@@ -20,6 +20,7 @@
                 if (!empty($_SESSION["empLoggedin"]) && ($_SESSION["empLoggedin"])) {
                     echo '<li class="nav-item"><a class="nav-link active" href="../inventoryAdd.php" style="font-family: \'Abril Fatface\', serif;" data-bs-target="inventory.html">Inventory Add</a></li>';
                     echo '<li class="nav-item"><a class="nav-link active" href="../inventoryUpdate.php" style="font-family: \'Abril Fatface\', serif;" data-bs-target="inventory.html">Inventory Update</a></li>';
+                    echo '<li class="nav-item"><a class="nav-link active" href="../employeeRegistration.php" style="font-family: \'Abril Fatface\', serif;" >Register Employee</a></li>';
                 }
                 ?>
                 <li class="nav-item"><a class="nav-link active" href="../employeeLogin.php" style="font-family: 'Abril Fatface', serif;" data-bs-target="employeeLogin.html">Employee Login</a></li>

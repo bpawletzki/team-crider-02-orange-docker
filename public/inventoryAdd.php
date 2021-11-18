@@ -42,13 +42,16 @@ head>
             </select><br><br>
             <label for="productCode">Product Code (SKU):</label>
             <input type="text" id="productCode" name="code"><br><br>
+            <label for="productCategory">Product Category: hot/iced/frozen</label>
+            <input type="text" id="productCategory" name="category"><br><br>
             <label for="productPrice">Product Price:</label>
             <input type="text" id="productPrice" name="price"><br><br>
             <label for="productDescription">Product description:</label>
             <input type="text" id="productDescription" name="description"><br><br>
             <label for="img">Select image:</label>
-            <input type="file" id=productImage" name="image" accept="image/*">
+            <input type="file" id="productImage" name="image" accept="image/*">
         </form>
+        <br>
             <button type="add" form= "inventoryForm" name="action" value="add" href="process.php">Add Item</button>
         </div><br>
 

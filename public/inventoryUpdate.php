@@ -21,6 +21,13 @@ if (!empty($_POST['code'])) {
     $_SESSION['searchCode'] = "%";
     $_SESSION['placeCode'] = "Code";
 };
+/* if (!empty($_POST['category'])) {
+    $_SESSION['searchCategory'] = "%" . $_POST['category'] . "%";
+    $_SESSION['placeCategory'] = $_POST['category'];
+} else {
+    $_SESSION['searchCategory'] = "%";
+    $_SESSION['placeCategory'] = "Category";
+}; */
 if (!empty($_POST['image'])) {
     $_SESSION['searchImage'] = "%" . $_POST['image'] . "%";
     $_SESSION['placeImage'] = $_POST['image'];
@@ -73,6 +80,7 @@ if (!empty($_POST['description'])) {
         <form method="post" action="inventoryUpdate.php">
             <input type="text" id="searchName" class="search-key" name="name" placeholder="Name">
             <input type="text" id="searchCode" class="search-key" name="code" placeholder="Code">
+            <input type="text" id="searchCategory" class="search-key" name="category" placeholder="Category: Hot/Iced/Frozen">
             <input type="text" id="searchImage" class="search-key" name="image" placeholder="Image">
             <input type="text" id="searchPrice" class="search-key" name="price" placeholder="Price">
             <input type="text" id="searchDescription" class="search-key" name="description" placeholder="Description">
@@ -104,6 +112,7 @@ if (!empty($_POST['description'])) {
                             var productId = columnsEd[0].childNodes[1].innerHTML;
                             var productName = columnsEd[0].childNodes[3].innerHTML;
                             var productCode = columnsEd[0].childNodes[5].innerHTML;
+                            var productCategory = columnsEd[0].childNodes[5].innerHTML;
                             var productImage = columnsEd[0].childNodes[7].innerHTML;
                             var productPrice = columnsEd[0].childNodes[9].innerHTML;
                             var productDescription = columnsEd[0].childNodes[11].innerHTML;
@@ -115,6 +124,7 @@ if (!empty($_POST['description'])) {
                                     id: productId,
                                     name: productName,
                                     code: productCode,
+                                    category:productCategory,
                                     image: productImage,
                                     price: productPrice,
                                     description: productDescription,

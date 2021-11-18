@@ -1,5 +1,12 @@
 <?php
 session_start();
+// only allow access if logged in
+if (is_null($_SESSION["empLoggedin"]) || !($_SESSION["empLoggedin"])) {
+    // Redirect to login page
+    header("location: employeeLogin.php");
+    exit;
+}
+
 ?>
 <!DOCTYPE html>
 <html>

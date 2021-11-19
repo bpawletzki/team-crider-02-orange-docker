@@ -58,6 +58,7 @@ $db_handle->connectDB();
                 $productQuantity = $item["quantity"];
                 $productPrice = $item["quantity"] * $item["price"];
                 $productOption = $item["creamer"];
+                $productOption2 = $item["sweetener"];
                 $detail = $db_handle->insertQuery("INSERT INTO checkoutDetail (price, product_id, checkout_id, quantity, options)
         VALUES('$productPrice','$productId','$checkout_id','$productQuantity', '$productOption')");
             }
@@ -96,6 +97,7 @@ $db_handle->connectDB();
                 echo
                 $name . "<br>" . "Quantity: " . $qty .
                     "<br>" . "Creamer: " . $productOption .
+                    "<br>" . "Sweetener: " . $productOption2 .
                     "<br>" . "Price: $" . number_format($price, 2) .
                     "<br><br>";
                 $totalPrice += $price;

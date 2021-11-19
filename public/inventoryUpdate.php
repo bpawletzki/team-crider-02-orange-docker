@@ -58,7 +58,7 @@ if (!empty($_POST['description'])) {
 
     <title>Love You A Latte</title>
     <?php include('./components/header.php') ?>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> -->
 
 </head>
 
@@ -163,6 +163,8 @@ if (!empty($_POST['description'])) {
         };
         myLoadTable();
     </script>
+    <script src="assets/js/jquery.min.js"></script>
+	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <?php include('./components/footer.php') ?>
 </body>
 

@@ -42,8 +42,12 @@ head>
             </select><br><br>
             <label for="productCode">Product Code (SKU):</label>
             <input type="text" id="productCode" name="code"><br><br>
-            <label for="productCategory">Product Category: hot/iced/frozen</label>
-            <input type="text" id="productCategory" name="category"><br><br>
+            Category:
+            <select name="category">
+                <option value="hot">Hot</option>
+                <option value="iced">Iced</option>
+                <option value="frozen">Frozen</option>
+            </select><br><br>
             <label for="productPrice">Product Price:</label>
             <input type="text" id="productPrice" name="price"><br><br>
             <label for="productDescription">Product description:</label>

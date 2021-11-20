@@ -90,6 +90,7 @@ if (!empty($_POST['description'])) {
             <input type="text" id="searchPrice" class="search-key" name="price" placeholder="Price">
             <input type="text" id="searchDescription" class="search-key" name="description" placeholder="Description">
             <input type="submit" id="searchButton" name="action" value="Search">
+            <br>
         </form>
         <div id="dataTable">
 

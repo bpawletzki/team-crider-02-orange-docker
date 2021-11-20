@@ -60,7 +60,8 @@ if (!empty($_GET["action"])) {
 
 <HEAD>
 	<TITLE>Love You A Latte Order</TITLE>
-	<?php include('./components/header.php') ?>
+	<?php include('components/header.php') ?>
+
 </HEAD>
 
 <BODY>
@@ -123,6 +124,9 @@ if (!empty($_GET["action"])) {
 		}
 		?> <a id="btnEmpty" href="receipt.php?action=checkout">Checkout</a>
 	</div>
+
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </BODY>
 
 </HTML>

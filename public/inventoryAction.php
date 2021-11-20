@@ -64,7 +64,7 @@ if (!empty($_POST) && $_POST['action'] == 'list') {
     $resultSet = mysqli_query($link, $sqlQuery);
 ?>
 
-    <script type="text/javascript" src="./assets/bootstrap/js/bootstable.min.js"></script>
+    <script type="text/javascript" src="./assets/bootstrap/js/bootstable.js"></script>
     <table id="editableTable" class="table table-bordered table-responsivetable-striped">
         <thead>
             <tr>

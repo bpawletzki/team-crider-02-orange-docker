@@ -27,7 +27,7 @@ if (!empty($_POST['category']) && $_POST['category']!="null") {
 } else {
     $_SESSION['searchCategory'] = "%";
     $_SESSION['placeCategory'] = "Category";
-};
+}; 
 if (!empty($_POST['image'])) {
     $_SESSION['searchImage'] = "%" . $_POST['image'] . "%";
     $_SESSION['placeImage'] = $_POST['image'];
@@ -90,6 +90,7 @@ if (!empty($_POST['description'])) {
             <input type="text" id="searchPrice" class="search-key" name="price" placeholder="Price">
             <input type="text" id="searchDescription" class="search-key" name="description" placeholder="Description">
             <input type="submit" id="searchButton" name="action" value="Search">
+            <br>
         </form>
         <div id="dataTable">
 

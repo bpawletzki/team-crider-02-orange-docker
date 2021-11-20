@@ -21,13 +21,13 @@ if (!empty($_POST['code'])) {
     $_SESSION['searchCode'] = "%";
     $_SESSION['placeCode'] = "Code";
 };
-/* if (!empty($_POST['category'])) {
+if (!empty($_POST['category'])) {
     $_SESSION['searchCategory'] = "%" . $_POST['category'] . "%";
     $_SESSION['placeCategory'] = $_POST['category'];
 } else {
     $_SESSION['searchCategory'] = "%";
     $_SESSION['placeCategory'] = "Category";
-}; */
+}; 
 if (!empty($_POST['image'])) {
     $_SESSION['searchImage'] = "%" . $_POST['image'] . "%";
     $_SESSION['placeImage'] = $_POST['image'];
@@ -80,11 +80,18 @@ if (!empty($_POST['description'])) {
         <form method="post" action="inventoryUpdate.php">
             <input type="text" id="searchName" class="search-key" name="name" placeholder="Name">
             <input type="text" id="searchCode" class="search-key" name="code" placeholder="Code">
-            <input type="text" id="searchCategory" class="search-key" name="category" placeholder="Category: Hot/Iced/Frozen">
+            Category:
+            <select type="text" id="searchCategory" class="search-key" name="categeory" placeholder="Category">
+                <option value="...">...</option>
+                <option value="hot">Hot</option>
+                <option value="iced">Iced</option>
+                <option value="frozen">Frozen</option>
+            </select>
             <input type="text" id="searchImage" class="search-key" name="image" placeholder="Image">
             <input type="text" id="searchPrice" class="search-key" name="price" placeholder="Price">
             <input type="text" id="searchDescription" class="search-key" name="description" placeholder="Description">
             <input type="submit" id="searchButton" name="action" value="Search">
+            <br>
         </form>
         <div id="dataTable">
 
@@ -107,7 +114,7 @@ if (!empty($_POST['description'])) {
                 function() {
                     // https://github.com/t-edson/bootstable
                     $('#editableTable').SetEditable({
-                        columnsEd: "1,2,3,4,5,6",
+                        columnsEd: "1,2,3,4,5,6,7",
                         onEdit: function(columnsEd) {
                             var productId = columnsEd[0].childNodes[1].innerHTML;
                             var productName = columnsEd[0].childNodes[3].innerHTML;

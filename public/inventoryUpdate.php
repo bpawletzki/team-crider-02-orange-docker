@@ -27,7 +27,7 @@ if (!empty($_POST['category']) && $_POST['category']!="null") {
 } else {
     $_SESSION['searchCategory'] = "%";
     $_SESSION['placeCategory'] = "Category";
-}; 
+};
 if (!empty($_POST['image'])) {
     $_SESSION['searchImage'] = "%" . $_POST['image'] . "%";
     $_SESSION['placeImage'] = $_POST['image'];

@@ -24,11 +24,12 @@
                 }
                 ?>
                 <li class="nav-item"><a class="nav-link active" href="../employeeLogin.php" style="font-family: 'Abril Fatface', serif;" data-bs-target="employeeLogin.html">Employee Login</a></li>
+                <li class="nav-item"><a class="nav-link active" href="../userLogin.php" style="font-family: 'Abril Fatface', serif;" data-bs-target="userLogin.html">User Login</a></li>
                 <li class="nav-item"><a class="nav-link active" href="../cart.php" style="font-family: 'Abril Fatface', serif;"><img src="assets/img/cart.png"></a></li>
             </ul>
         </div>
         <?php
         if (!empty($_SESSION["firstname"]))
-            echo $_SESSION["firstname"] ?>
+            echo "Welcome<br>" . $_SESSION["firstname"] ?>
     </div>
 </nav>

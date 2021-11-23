@@ -30,6 +30,6 @@
         </div>
         <?php
         if (!empty($_SESSION["firstname"]))
-            echo "Welcome<br>" . $_SESSION["firstname"] ?>
+            echo $_SESSION["firstname"] ?>
     </div>
 </nav>

@@ -58,7 +58,6 @@ if (!empty($_POST['description'])) {
 
     <title>Love You A Latte</title>
     <?php include('./components/header.php') ?>
-    <!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> -->
 
 </head>
 

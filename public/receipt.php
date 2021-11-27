@@ -47,9 +47,14 @@ $db_handle->connectDB();
             $reciept_uuid = guidv4();
             if (!empty($_SESSION["empLoggedin"]) && $_SESSION["empLoggedin"]) {
                 $user_id = $_SESSION["employeeid"];
-            } else {
+            } 
+            if  (!empty($_SESSION["username"]) && $_SESSION["userLoggedin"]) {
+                $user_id = $_SESSION["username"];
+            }
+            if (empty($user_id)) {
                 $user_id = $_SERVER["REMOTE_ADDR"];
             }
+    
             $checkout = $db_handle->insertQuery("INSERT INTO checkout (checkoutTime, uuid, accountid) VALUE('$date_clicked', '$reciept_uuid', '$user_id')");
             $checkout_id = $db_handle->getId("SELECT id FROM checkout WHERE uuid='$reciept_uuid'");
             $_SESSION["checkoutid"] = $checkout_id;

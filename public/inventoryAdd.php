@@ -48,6 +48,7 @@ head>
                 <option value="hot">Hot</option>
                 <option value="iced">Iced</option>
                 <option value="frozen">Frozen</option>
+                <option value="bakery">Bakery</option>
             </select><br><br>
             <label for="productPrice">Product Price:</label>
             <input type="text" id="productPrice" name="price"><br><br>

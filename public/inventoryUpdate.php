@@ -116,7 +116,7 @@ if (!empty($_POST['description'])) {
                         bootstrap: false,
                         columnsEd: "1,2,3,4,5,6",
                         columnsType: "text,text,text,select,text,text,text",
-                        columnsSelect:[{3: ["hot","iced","frozen"]}],
+                        columnsSelect:[{3: ["hot","iced","frozen","bakery"]}],
                         onEdit: function(columnsEd) {
                             var productId = columnsEd[0].childNodes[1].innerHTML;
                             var productName = columnsEd[0].childNodes[3].innerHTML;

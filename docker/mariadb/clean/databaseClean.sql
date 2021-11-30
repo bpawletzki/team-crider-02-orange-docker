@@ -84,6 +84,12 @@ INSERT INTO `product` (`id`, `name`, `code`, `category`, `image`, `price`, `desc
 (31, 'FrozoCinnamonRoll Small', 'frozocinnamon1', 'frozen', 'product-images/frozo-cinnamon.jpg', 3.00, '8oz - Our signature coffee combined with ground cinnamon, maple extract, half-and-half blended with ice'),
 (32, 'FrozoCinnamonRoll Medium', 'frozocinnamon2', 'frozen', 'product-images/frozo-cinnamon.jpg', 3.50, '12oz - Our signature coffee combined with ground cinnamon, maple extract, half-and-half blended with ice'),
 (33, 'FrozoCinnamonRoll Large', 'frozocinnamon3', 'frozen', 'product-images/frozo-cinnamon.jpg', 4.00, '16oz - Our signature coffee combined with ground cinnamon, maple extract, half-and-half blended with ice');
+
+INSERT INTO `product` (`id`, `name`, `code`, `category`, `image`, `price`, `description`) VALUES
+(35, 'Blueberry Muffin', 'blueberrymuffin', 'bakery', 'product-images/blueberry.jpg', 3.00, 'placeholder'),
+(36, 'Croissant', 'croissant', 'bakery', 'product-images/croissant.jpg', 2.00, 'placeholder'),
+(37, 'Chocolate Chip Cookie', 'chocochipcookie', 'bakery', 'product-images/cookie.jpg', 1.00, 'placeholder');
+
 CREATE TABLE employees (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL UNIQUE,

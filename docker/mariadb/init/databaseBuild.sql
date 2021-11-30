@@ -37,112 +37,46 @@ CREATE TABLE `checkoutDetail` (
 --
 -- Database: `love_you_a_latte`
 --
-INSERT INTO
-  `product` (
-    `id`,
-    `name`,
-    `code`,
-    `image`,
-    `price`,
-    `description`
-  )
-VALUES
-  (
-    1,
-    'Brewed Coffee Small',
-    'brewedcoffee1',
-    'product-images/brewed-coffee.jpg',
-    2.00,
-    '8oz - We use all locally sourced Arabica beans. Floral, full-bodied, smoky aroma & distinct richness.'
-  ),
-  (
-    2,
-    'Brewed Coffee Medium',
-    'brewedcoffee2',
-    'product-images/brewed-coffee.jpg',
-    2.50,
-    '12oz - We use all locally sourced Arabica beans. Floral, full-bodied, smoky aroma & distinct richness.'
-  ),
-  (
-    3,
-    'Brewed Coffee Large',
-    'brewedcoffee3',
-    'product-images/brewed-coffee.jpg',
-    3.00,
-    '16oz - We use all locally sourced Arabica beans. Floral, full-bodied, smoky aroma & distinct richness.'
-  ),
-  (
-    4,
-    'Cappucino Small',
-    'cappucino1',
-    'product-images/Cappucino.jpg',
-    3.00,
-    '8oz - Espresso with foamed milk layered on top. A heart warming drink anytime of day.'
-  ),
-  (
-    5,
-    'Cappucino Medium',
-    'cappucino2',
-    'product-images/Cappucino.jpg',
-    3.50,
-    '12oz - Espresso with foamed milk layered on top. A heart warming drink anytime of day.'
-  ),
-  (
-    6,
-    'Cappucino Large',
-    'cappucino3',
-    'product-images/Cappucino.jpg',
-    4.00,
-    '16oz - Espresso with foamed milk layered on top. A heart warming drink anytime of day.'
-  ),
-  (
-    7,
-    'Esspresso Small',
-    'esspresso1',
-    'product-images/Esspresso.jpg',
-    1.95,
-    '20ml - Ristretto shots are espresso shots pulled earlier, resulting in a slightly smaller but sweeter shot of espresso,'
-  ),
-  (
-    8,
-    'Esspresso Medium',
-    'esspresso2',
-    'product-images/Esspresso.jpg',
-    2.45,
-    '30ml - A concentrated thick coffee beverage with a layer of dense foam. Ingredients are exclusively coffee and water'
-  ),
-  (
-    9,
-    'Esspresso Large',
-    'esspresso3',
-    'product-images/Esspresso.jpg',
-    2.95,
-    '60ml - A double shot of espresso! Typical for use in coffee, latte, or cappucino.'
-  ),
-  (
-    10,
-    'Latte Small',
-    'latte1',
-    'product-images/Latte.jpg',
-    3.00,
-    '8oz - Freshly brewed espresso & perfectly steamed milk.'
-  ),
-  (
-    11,
-    'Latte Medium',
-    'latte2',
-    'product-images/Latte.jpg',
-    3.50,
-    '12oz - Freshly brewed espresso & perfectly steamed milk.'
-  ),
-  (
-    12,
-    'Latte Large',
-    'latte3',
-    'product-images/Latte.jpg',
-    4.00,
-    '16oz - Freshly brewed espresso & perfectly steamed milk.'
-  );
+INSERT INTO `product` (`id`, `name`, `code`, `category`, `image`, `price`, `description`) VALUES
+(1, 'Brewed Coffee Small', 'brewedcoffee1', 'hot', 'product-images/brewed-coffee.jpg', 2.00, '8oz - We use all locally sourced Arabica beans. Floral, full-bodied, smoky aroma & distinct richness.'),
+(2, 'Brewed Coffee Medium', 'brewedcoffee2', 'hot', 'product-images/brewed-coffee.jpg', 2.50, '12oz - We use all locally sourced Arabica beans. Floral, full-bodied, smoky aroma & distinct richness.'),
+(3, 'Brewed Coffee Large', 'brewedcoffee3', 'hot', 'product-images/brewed-coffee.jpg', 3.00, '16oz - We use all locally sourced Arabica beans. Floral, full-bodied, smoky aroma & distinct richness.'),
+(4, 'Cappucino Small', 'cappucino1', 'hot', 'product-images/cappucino.jpg', 3.00, '8oz - Espresso with foamed milk layered on top. A heart warming drink anytime of day.'),
+(5, 'Cappucino Medium', 'cappucino2', 'hot', 'product-images/cappucino.jpg', 3.50, '12oz - Espresso with foamed milk layered on top. A heart warming drink anytime of day.'),
+(6, 'Cappucino Large', 'cappucino3', 'hot', 'product-images/cappucino.jpg', 4.00, '16oz - Espresso with foamed milk layered on top. A heart warming drink anytime of day.'),
+(7, 'Esspresso Small', 'esspresso1', 'hot', 'product-images/esspresso.jpg', 1.95, '20ml - Ristretto shots are espresso shots pulled earlier, resulting in a slightly smaller but sweeter shot of espresso,'),
+(8, 'Esspresso Medium', 'esspresso2', 'hot', 'product-images/esspresso.jpg', 2.45, '30ml - A concentrated thick coffee beverage with a layer of dense foam. Ingredients are exclusively coffee and water'),
+(9, 'Esspresso Large', 'esspresso3', 'hot', 'product-images/esspresso.jpg', 2.95, '60ml - A double shot of espresso! Typical for use in coffee, latte, or cappucino.'),
+(10, 'Latte Small', 'latte1', 'hot', 'product-images/latte.jpg', 3.00, '8oz - Freshly brewed espresso & perfectly steamed milk.'),
+(11, 'Latte Medium', 'latte2', 'hot', 'product-images/latte.jpg', 3.50, '12oz - Freshly brewed espresso & perfectly steamed milk.'),
+(12, 'Latte Large', 'latte3', 'hot', 'product-images/latte.jpg', 4.00, '16oz - Freshly brewed espresso & perfectly steamed milk.'),
+(13, 'Iced Coffee Small', 'icedcoffee1', 'iced', 'product-images/iced-coffee.jpg', 2.00, '8oz - We use all locally sourced Arabica beans. Floral, full-bodied, smoky aroma & distinct richness.'),
+(14, 'Iced Coffee Medium', 'icedcoffee2', 'iced', 'product-images/iced-coffee.jpg', 2.50, '12oz - We use all locally sourced Arabica beans. Floral, full-bodied, smoky aroma & distinct richness.'),
+(15, 'Iced Coffee Large', 'icedcoffee3', 'iced', 'product-images/iced-coffee.jpg', 3.00, '16oz - We use all locally sourced Arabica beans. Floral, full-bodied, smoky aroma & distinct richness.'),
+(16, 'Iced Cappucino Small', 'icedcappucino1', 'iced', 'product-images/iced-cappucino.jpg', 3.00, '8oz - Espresso with foamed milk layered on top. Sure to cool you down on a warm day.'),
+(17, 'Iced Cappucino Medium', 'icedcappucino2', 'iced', 'product-images/iced-cappucino.jpg', 3.50, '8oz - Espresso with foamed milk layered on top. Sure to cool you down on a warm day.'),
+(18, 'Iced Cappucino Large', 'icedcappucino3', 'iced', 'product-images/iced-cappucino.jpg', 4.00, '8oz - Espresso with foamed milk layered on top. Sure to cool you down on a warm day.'),
+(19, 'Iced Esspresso Small', 'icedesspresso1', 'iced', 'product-images/iced-esspresso.jpg', 1.95, '20ml - A shot of espresso that has been pulled earlier, resulting in a slightly smaller but sweeter shot of espresso, and then poured over ice.'),
+(20, 'Iced Esspresso Medium', 'icedesspresso2', 'iced', 'product-images/iced-esspresso.jpg', 2.45, '30ml - A concentrated thick coffee beverage with a layer of dense foam that is then poured over ice.'),
+(21, 'Iced Esspresso Large', 'icedesspresso3', 'iced', 'product-images/iced-esspresso.jpg', 2.95, '60ml - A double shot of espresso! Typical for use in coffee, latte, or cappucino. Served over ice.'),
+(22, 'Iced Latte Small', 'icedlatte1', 'iced', 'product-images/iced-latte.jpg', 3.00, '8oz - Freshly brewed espresso & cold milk over ice.'),
+(23, 'Iced Latte Medium', 'icedlatte2', 'iced', 'product-images/iced-latte.jpg', 3.50, '12oz - Freshly brewed espresso & cold milk over ice.'),
+(24, 'Iced Latte Large', 'icedlatte3', 'iced', 'product-images/iced-latte.jpg', 4.00, '16oz - Freshly brewed espresso & cold milk over ice.'),
+(25, 'FrozoMocha Small', 'frozomocha1', 'frozen', 'product-images/frozo-mocha.jpg', 3.00, '8oz - Our signature coffee combined with milk, chocolate chips, chocolate syrup blended with ice'),
+(26, 'FrozoMocha Medium', 'frozomocha2', 'frozen', 'product-images/frozo-mocha.jpg', 3.50, '12oz - Our signature coffee combined with milk, chocolate chips, chocolate syrup blended with ice'),
+(27, 'FrozoMocha Large', 'frozomocha3', 'frozen', 'product-images/frozo-mocha.jpg', 4.00, '16oz - Our signature coffee combined with milk, chocolate chips, chocolate syrup blended with ice'),
+(28, 'FrozoApplePie Small', 'frozoapple1', 'frozen', 'product-images/frozo-apple.jpg', 3.00, '8oz - Our signature coffee combined with ground nutmeg, cinnamon, granulated sugar, a dash of apple juice, and steamed milk blended with ice'),
+(29, 'FrozoApplePie Medium', 'frozoapple2', 'frozen', 'product-images/frozo-apple.jpg', 3.50, '12oz - Our signature coffee combined with ground nutmeg, cinnamon, granulated sugar, a dash of apple juice, and steamed milk blended with ice'),
+(30, 'FrozoApplePie Large', 'frozoapple3', 'frozen', 'product-images/frozo-apple.jpg', 4.00, '16oz - Our signature coffee combined with ground nutmeg, cinnamon, granulated sugar, a dash of apple juice, and steamed milk blended with ice'),
+(31, 'FrozoCinnamonRoll Small', 'frozocinnamon1', 'frozen', 'product-images/frozo-cinnamon.jpg', 3.00, '8oz - Our signature coffee combined with ground cinnamon, maple extract, half-and-half blended with ice'),
+(32, 'FrozoCinnamonRoll Medium', 'frozocinnamon2', 'frozen', 'product-images/frozo-cinnamon.jpg', 3.50, '12oz - Our signature coffee combined with ground cinnamon, maple extract, half-and-half blended with ice'),
+(33, 'FrozoCinnamonRoll Large', 'frozocinnamon3', 'frozen', 'product-images/frozo-cinnamon.jpg', 4.00, '16oz - Our signature coffee combined with ground cinnamon, maple extract, half-and-half blended with ice');
+
+INSERT INTO `product` (`id`, `name`, `code`, `category`, `image`, `price`, `description`) VALUES
+(35, 'Blueberry Muffin', 'blueberrymuffin', 'bakery', 'product-images/blueberry.jpg', 3.00, 'placeholder'),
+(36, 'Croissant', 'croissant', 'bakery', 'product-images/croissant.jpg', 2.00, 'placeholder'),
+(37, 'Chocolate Chip Cookie', 'chocochipcookie', 'bakery', 'product-images/cookie.jpg', 1.00, 'placeholder');
+
 CREATE TABLE employees (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL UNIQUE,

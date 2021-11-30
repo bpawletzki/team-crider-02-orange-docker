@@ -36,6 +36,7 @@ head>
             <input type="text" id="productName" name="name"><br><br>
             Size:
             <select name="size">
+                <option value="None">None</option>
                 <option value="Small">Small</option>
                 <option value="Medium">Medium</option>
                 <option value="Large">Large</option>

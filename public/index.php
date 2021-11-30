@@ -23,12 +23,14 @@ session_start();
         </div>
     </div>
     <div class="container site-section" id="welcome">
-        <h1 style="font-family: 'Abril Fatface', serif;"><?php
+        <h1 style="font-family: 'Abril Fatface', serif;">
+        <?php
         if (!empty($_SESSION["firstname"]))
             echo "Welcome, " . $_SESSION["firstname"] . ", ";
         else {
             echo "Welcome ";
-        }?>To the Love You A Latte Cafe</h1>
+        }?>
+        To the Love You A Latte Cafe</h1>
         <p>Love you A Latte is a new alternative coffee shop. It has a homey atmosphere with great tasting coffee. Come in and have a cup, you won't regret it.</p>
     </div>
     <div class="dark-section">

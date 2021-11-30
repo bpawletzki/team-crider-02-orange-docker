@@ -12,6 +12,7 @@
                         <li class="dropdown-item"><a class="nav-link active" href="../Menu.php" style="font-family: 'Abril Fatface', serif;" data-bs-target="Menu.html">Hot Drinks</a></li>
                         <li class="dropdown-item"><a class="nav-link active" href="../icedMenu.php" style="font-family: 'Abril Fatface', serif;" data-bs-target="Menu.html">Iced Drinks</a></li>
                         <li class="dropdown-item"><a class="nav-link active" href="../frozenMenu.php" style="font-family: 'Abril Fatface', serif;" data-bs-target="Menu.html">Frozen Drinks</a></li>
+                        <li class="dropdown-item"><a class="nav-link active" href="../bakeryMenu.php" style="font-family: 'Abril Fatface', serif;" data-bs-target="Menu.html">Bakery Items</a></li>
                     </ul>
                 </li>
                 <li class="nav-item"><a class="nav-link active" href="../FAQs.php" style="font-family: 'Abril Fatface', serif;" data-bs-target="FAQs.html">FAQs</a></li>

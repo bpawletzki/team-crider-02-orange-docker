@@ -84,6 +84,7 @@ if (!empty($_POST['description'])) {
                 <option value="hot">hot</option>
                 <option value="iced">iced</option>
                 <option value="frozen">frozen</option>
+                <option value="bakery">bakery</option>
             </select>
             <input type="text" id="searchImage" class="search-key" name="image" placeholder="Image">
             <input type="text" id="searchPrice" class="search-key" name="price" placeholder="Price">

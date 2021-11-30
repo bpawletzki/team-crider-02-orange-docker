@@ -47,9 +47,14 @@ $db_handle->connectDB();
             $reciept_uuid = guidv4();
             if (!empty($_SESSION["empLoggedin"]) && $_SESSION["empLoggedin"]) {
                 $user_id = $_SESSION["employeeid"];
-            } else {
+            } 
+            if  (!empty($_SESSION["username"]) && $_SESSION["userLoggedin"]) {
+                $user_id = $_SESSION["username"];
+            }
+            if (empty($user_id)) {
                 $user_id = $_SERVER["REMOTE_ADDR"];
             }
+    
             $checkout = $db_handle->insertQuery("INSERT INTO checkout (checkoutTime, uuid, accountid) VALUE('$date_clicked', '$reciept_uuid', '$user_id')");
             $checkout_id = $db_handle->getId("SELECT id FROM checkout WHERE uuid='$reciept_uuid'");
             $_SESSION["checkoutid"] = $checkout_id;
@@ -59,8 +64,8 @@ $db_handle->connectDB();
                 $productPrice = $item["quantity"] * $item["price"];
                 $productOption = $item["creamer"];
                 $productOption2 = $item["sweetener"];
-                $detail = $db_handle->insertQuery("INSERT INTO checkoutDetail (price, product_id, checkout_id, quantity, options)
-        VALUES('$productPrice','$productId','$checkout_id','$productQuantity', '$productOption')");
+                $detail = $db_handle->insertQuery("INSERT INTO checkoutDetail (price, product_id, checkout_id, quantity, options, sweetener)
+        VALUES('$productPrice','$productId','$checkout_id','$productQuantity', '$productOption', '$productOption2')");
             }
         }
         //initialzing total price, receipt number and date/time variables
@@ -70,7 +75,7 @@ $db_handle->connectDB();
         if (!empty($_SESSION["checkoutid"])) {
 
             //selectng all items from coffee details table
-            $results = $db_handle->runQuery("SELECT checkoutDetail.product_id, checkoutDetail.id, checkoutDetail.quantity, checkoutDetail.price, product.name, checkoutDetail.options FROM checkoutDetail JOIN product ON checkoutDetail.product_id=product.id WHERE checkout_id='" . $_SESSION["checkoutid"] . "'");
+            $results = $db_handle->runQuery("SELECT checkoutDetail.product_id, checkoutDetail.id, checkoutDetail.quantity, checkoutDetail.price, product.name, checkoutDetail.options, checkoutDetail.sweetener FROM checkoutDetail JOIN product ON checkoutDetail.product_id=product.id WHERE checkout_id='" . $_SESSION["checkoutid"] . "'");
             //looping through the items to display them individually along side their prices and quantities
             foreach ($results as $result) {
                 $product_id = $result["product_id"];
@@ -79,6 +84,7 @@ $db_handle->connectDB();
                 $qty = $result["quantity"];
                 $price = $result["price"];
                 $productOption = $result["options"];
+                $productOption2 = $result["sweetener"];
 
                 //selecting date/time from the checkout table and id which will used for the reciept number    
                 $dateTime = $db_handle->runQuery("SELECT * FROM checkout WHERE id='" . $_SESSION["checkoutid"] . "'");

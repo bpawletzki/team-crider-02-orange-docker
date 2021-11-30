@@ -20,6 +20,7 @@ session_start();
         <div class="rounded border-light jumbotron py-5 px-4">
             <h1 style="font-family: 'Abril Fatface', serif;">Love You A Latte</h1>
             <p>Welcome to our fresh Brewed</p>
+            <a class="nav-link active" href="../userLogin.php">User Login / Register new User</a>
         </div>
     </div>
     <div class="container site-section" id="welcome">

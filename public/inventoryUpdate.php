@@ -58,7 +58,6 @@ if (!empty($_POST['description'])) {
 
     <title>Love You A Latte</title>
     <?php include('./components/header.php') ?>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
 
@@ -113,6 +112,7 @@ if (!empty($_POST['description'])) {
                 function() {
                     // https://github.com/t-edson/bootstable
                     $('#editableTable').SetEditable({
+                        bootstrap: false,
                         columnsEd: "1,2,3,4,5,6",
                         columnsType: "text,text,text,select,text,text,text",
                         columnsSelect:[{3: ["hot","iced","frozen"]}],

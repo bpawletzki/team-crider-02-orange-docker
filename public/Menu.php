@@ -64,6 +64,7 @@ $db_handle = new DBController();
                         <option value="cinnamon">Cinnamon</option>
                         <option value="None">None</option>
                         </select>
+                        <div class="syrup-pumps"><input type="text" name="pumps" value="1" size="2" /></div>
                         <br>
                         <br>
                         <div class="product-price"><?php echo "$".$product_array[$key]["price"]; ?></div>

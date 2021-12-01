@@ -85,6 +85,3 @@ ALTER TABLE 'product'
 ADD 'category' varchar(100)
 AFTER `id`;
 COMMIT;
-
-
-

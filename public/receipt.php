@@ -47,14 +47,14 @@ $db_handle->connectDB();
             $reciept_uuid = guidv4();
             if (!empty($_SESSION["empLoggedin"]) && $_SESSION["empLoggedin"]) {
                 $user_id = $_SESSION["employeeid"];
-            } 
-            if  (!empty($_SESSION["username"]) && $_SESSION["userLoggedin"]) {
+            }
+            if (!empty($_SESSION["username"]) && $_SESSION["userLoggedin"]) {
                 $user_id = $_SESSION["username"];
             }
             if (empty($user_id)) {
                 $user_id = $_SERVER["REMOTE_ADDR"];
             }
-    
+
             $checkout = $db_handle->insertQuery("INSERT INTO checkout (checkoutTime, uuid, accountid) VALUE('$date_clicked', '$reciept_uuid', '$user_id')");
             $checkout_id = $db_handle->getId("SELECT id FROM checkout WHERE uuid='$reciept_uuid'");
             $_SESSION["checkoutid"] = $checkout_id;
@@ -90,8 +90,8 @@ $db_handle->connectDB();
 
 
                 //adding price per syrup pump
-                if($productOption3!="None"){
-                    $price = $price+($qty*0.25);
+                if ($productOption3 != "None") {
+                    $price = $price + ($qty * 0.25);
                 }
 
                 //selecting date/time from the checkout table and id which will used for the reciept number    
@@ -109,13 +109,20 @@ $db_handle->connectDB();
 
 
                 //displaying all required information collected from the DB
-                echo
-                $name . "<br>" . "Quantity: " . $qty .
-                    "<br>" . "Creamer: " . $productOption .
-                    "<br>" . "Sweetener: " . $productOption2 .
-                    "<br>" . "Syrup: " . $productOption3 .
+                $receiptDetails = $name . "<br>" . "Quantity: " . $qty ;
+                if (!empty($productOption)) {
+                    $receiptDetails = $receiptDetails . "<br>" . "Creamer: " . $productOption;
+                }
+                if (!empty($productOption2)) {
+                    $receiptDetails = $receiptDetails . "<br>" . "Sweetener: " . $productOption2;
+                }
+                if (!empty($productOption3)) {
+                    $receiptDetails = $receiptDetails . "<br>" . "Syrup: " . $productOption3;
+                }
+                $receiptDetails = $receiptDetails .
                     "<br>" . "Price: $" . number_format($price, 2) .
                     "<br><br>";
+                echo $receiptDetails;
                 $totalPrice += $price;
             }
             echo

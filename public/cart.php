@@ -7,11 +7,11 @@ if (!empty($_GET["action"])) {
 		case "add":
 			if (!empty($_POST["quantity"])) {
 				$productByCode = $db_handle->runQuery("SELECT * FROM product WHERE code='" . $_GET["code"] . "'");
-				$k = $productByCode[0]["code"] . $_POST["creamer-options"] . $_POST["sweetener-options"];
-				$itemArray = array($k => array('name' => $productByCode[0]["name"], 'code' => $productByCode[0]["code"], 'quantity' => $_POST["quantity"], 'price' => $productByCode[0]["price"], 'image' => $productByCode[0]["image"], 'id' => $productByCode[0]["id"], 'creamer' => $_POST["creamer-options"], 'sweetener' => $_POST["sweetener-options"]));
+				$k = $productByCode[0]["code"] . $_POST["creamer-options"] . $_POST["sweetener-options"] . $_POST["syrup-options"];
+				$itemArray = array($k => array('name' => $productByCode[0]["name"], 'code' => $productByCode[0]["code"], 'quantity' => $_POST["quantity"], 'price' => $productByCode[0]["price"], 'image' => $productByCode[0]["image"], 'id' => $productByCode[0]["id"], 'creamer' => $_POST["creamer-options"], 'sweetener' => $_POST["sweetener-options"], 'syrup' => $_POST["syrup-options"]));
 				// echo $itemArray;
 				if (!empty($_SESSION["cart_item"])) {
-					$resultsArraySearch = preg_grep("/.*?" . $productByCode[0]["code"] . $_POST["creamer-options"] . $_POST["sweetener-options"] . "*?./i", array_keys($_SESSION["cart_item"]));
+					$resultsArraySearch = preg_grep("/.*?" . $productByCode[0]["code"] . $_POST["creamer-options"] . $_POST["sweetener-options"] . $_POST["syrup-options"] . "*?./i", array_keys($_SESSION["cart_item"]));
 					if ($resultsArraySearch) {
 						if (empty($_SESSION["cart_item"][$k]["quantity"])) {
 							$_SESSION["cart_item"][$k]["quantity"] = 0;
@@ -81,6 +81,7 @@ if (!empty($_GET["action"])) {
 						<th style="text-align:left;">Name</th>
 						<th style="text-align:left;">Creamer Options</th>
 						<th style="text-align:left;">Sweetner Options</th>
+						<th style="text-align:left;">Syrup Options</th>
 						<th style="text-align:left;">Code</th>
 						<th style="text-align:right;" width="5%">Quantity</th>
 						<th style="text-align:right;" width="10%">Order Price</th>
@@ -89,22 +90,29 @@ if (!empty($_GET["action"])) {
 					</tr>
 					<?php
 					foreach ($_SESSION["cart_item"] as $item) {
-						$item_price = $item["quantity"] * $item["price"];
+						if($item["syrup"]!="None"){
+							$item_price = $item["quantity"] * ($item["price"]+0.25);
+												}
+												else{
+													$item_price = $item["price"]*$item["quantity"];
+												}
 					?>
 						<tr>
 							<td><img src="<?php echo $item["image"]; ?>" class="cart-item-image" /><?php echo $item["name"]; ?>
 							</td>
 							<td> <?php echo $item["creamer"]; ?></td><!-- the creamer options are supposed to print, the variable is added at the end of line 10-->
 							<td> <?php echo $item["sweetener"]; ?></td><!-- the sweetener options are supposed to print, the variable is added at the end of line 10-->
+							<td> <?php echo $item["syrup"]; 
+							?></td><!-- the syrup options are supposed to print, the variable is added at the end of line 10-->
 							<td><?php echo $item["code"]; ?></td>
 							<td style="text-align:right;"><?php echo $item["quantity"]; ?></td>
 							<td style="text-align:right;"><?php echo "$ " . $item["price"]; ?></td>
 							<td style="text-align:right;"><?php echo "$ " . number_format($item_price, 2); ?></td>
-							<td style="text-align:center;"><a href="cart.php?action=remove&code=<?php echo $item["code"].$item["creamer"].$item["sweetener"]; ?>" class="btnRemoveAction"><img src="./assets/img/icon-delete.png" alt="Remove Item" /></a></td>
+							<td style="text-align:center;"><a href="cart.php?action=remove&code=<?php echo $item["code"].$item["creamer"].$item["sweetener"].$item["syrup"]; ?>" class="btnRemoveAction"><img src="./assets/img/icon-delete.png" alt="Remove Item" /></a></td>
 						</tr>
 					<?php
 						$total_quantity += $item["quantity"];
-						$total_price += ($item["price"] * $item["quantity"]);
+						$total_price += $item_price;
 					}		?>
 
 					<tr>

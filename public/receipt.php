@@ -92,7 +92,7 @@ $db_handle->connectDB();
 
 
                 //adding price per syrup pump
-                if (!empty($productOption3) && $productOption3 != "None") {
+                if (!empty($productOption3) && $productOption3 != ("None" || "N/A")) {
                     if (empty($productOption3quantity)) {
                         $productOption3quantity = 1;
                     }
@@ -115,13 +115,13 @@ $db_handle->connectDB();
 
                 //displaying all required information collected from the DB
                 $receiptDetails = $name . "<br>" . "Quantity: " . $qty;
-                if (!empty($productOption) && $productOption != "None") {
+                if (!empty($productOption) && $productOption != ("None" || "N/A")) {
                     $receiptDetails = $receiptDetails . "<br>" . "Creamer: " . $productOption;
                 }
-                if (!empty($productOption2) && $productOption2 != "None") {
+                if (!empty($productOption2) && $productOption2 != ("None" || "N/A")) {
                     $receiptDetails = $receiptDetails . "<br>" . "Sweetener: " . $productOption2;
                 }
-                if (!empty($productOption3) && $productOption3 != "None") {
+                if (!empty($productOption3) && $productOption3 != ("None" || "N/A")) {
                     $receiptDetails = $receiptDetails . "<br>" . "Syrup: " . $productOption3;
                     if (!empty($productOption3quantity)) {
                         $receiptDetails = $receiptDetails . "<br>" . "Syrup pumps: " . $productOption3quantity . " @ $0.25/pump";

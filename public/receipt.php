@@ -92,8 +92,11 @@ $db_handle->connectDB();
 
 
                 //adding price per syrup pump
-                if ($productOption3 != "None") {
-                    $price = $price + ($qty * 0.25);
+                if (!empty($productOption3) && $productOption3 != "None") {
+                    if (empty($productOption3quantity)) {
+                        $productOption3quantity = 1;
+                    }
+                    $price = $price + ($productOption3quantity * 0.25);
                 }
 
                 //selecting date/time from the checkout table and id which will used for the reciept number    
@@ -111,16 +114,20 @@ $db_handle->connectDB();
 
 
                 //displaying all required information collected from the DB
-                $receiptDetails = $name . "<br>" . "Quantity: " . $qty ;
-                if (!empty($productOption)) {
+                $receiptDetails = $name . "<br>" . "Quantity: " . $qty;
+                if (!empty($productOption) && $productOption != "None") {
                     $receiptDetails = $receiptDetails . "<br>" . "Creamer: " . $productOption;
                 }
-                if (!empty($productOption2)) {
+                if (!empty($productOption2) && $productOption2 != "None") {
                     $receiptDetails = $receiptDetails . "<br>" . "Sweetener: " . $productOption2;
                 }
-                if (!empty($productOption3)) {
-                    $receiptDetails = $receiptDetails . "<br>" . "Syrup: " . $productOption3quantity . " pumps of " . $productOption3;
+                if (!empty($productOption3) && $productOption3 != "None") {
+                    $receiptDetails = $receiptDetails . "<br>" . "Syrup: " . $productOption3;
+                    if (!empty($productOption3quantity)) {
+                        $receiptDetails = $receiptDetails . "<br>" . "Syrup pumps: " . $productOption3quantity . " @ $0.25/pump";
+                    }
                 }
+
                 $receiptDetails = $receiptDetails .
                     "<br>" . "Price: $" . number_format($price, 2) .
                     "<br><br>";

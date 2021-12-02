@@ -33,7 +33,7 @@ $db_handle = new DBController();
                     foreach($product_array as $key=>$value){
                 ?>
                     <div class="product-item">
-                        <form method="post" action="cart.php?action=add&code=<?php echo $product_array[$key]["code"]; ?>" target="dummyframe">
+                        <form method="post" action="cart.php?action=add&code=<?php echo $product_array[$key]["code"]; ?>" target="dummyframe" autocomplete="off">
                         <div class="product-image"><img src="<?php echo $product_array[$key]["image"]; ?>"></div>
                         <div class="product-tile-footer">
                         <div class="product-title"><?php echo $product_array[$key]["name"]; ?></div>
@@ -63,10 +63,12 @@ $db_handle = new DBController();
                         <option value="cinnamon">Cinnamon</option>
                         <option value="None">None</option>
                         </select>
+                        <div style="float: left;" class="syrup-pumps"><input type="number" min="0" name="pumps" value="0" size="2" /></div>
+                        <br>
                         <br>
                         <br>
                         <div class="product-price"><?php echo "$".$product_array[$key]["price"]; ?></div>
-                        <div class="cart-action"><input type="text" class="product-quantity" name="quantity" value="1" size="2" /><input type="submit" value="Add to Cart" class="btnAddAction" /></div>
+                        <div class="cart-action"><input type="number" class="product-quantity" name="quantity" min="0" value="1" size="2" /><input type="submit" value="Add to Cart" class="btnAddAction" /></div>
                         </div>
                         </form>
                     </div>

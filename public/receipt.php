@@ -64,9 +64,10 @@ $db_handle->connectDB();
                 $productPrice = $item["quantity"] * $item["price"];
                 $productOption = $item["creamer"];
                 $productOption2 = $item["sweetener"];
-                $productOption3 = $item["syrup"] . " " . $item["pumps"];
-                $detail = $db_handle->insertQuery("INSERT INTO checkoutDetail (price, product_id, checkout_id, quantity, options, sweetener, syrup)
-        VALUES('$productPrice','$productId','$checkout_id','$productQuantity', '$productOption', '$productOption2', '$productOption3')");
+                $productOption3 = $item["syrup"];
+                $productOption3quantity = $item["pumps"];
+                $detail = $db_handle->insertQuery("INSERT INTO checkoutDetail (price, product_id, checkout_id, quantity, creamer, sweetener, syrup, pumps)
+        VALUES('$productPrice','$productId','$checkout_id','$productQuantity', '$productOption', '$productOption2', '$productOption3', '$productOption3quantity')");
             }
         }
         //initialzing total price, receipt number and date/time variables
@@ -76,7 +77,7 @@ $db_handle->connectDB();
         if (!empty($_SESSION["checkoutid"])) {
 
             //selectng all items from coffee details table
-            $results = $db_handle->runQuery("SELECT checkoutDetail.product_id, checkoutDetail.id, checkoutDetail.quantity, checkoutDetail.price, product.name, checkoutDetail.options, checkoutDetail.sweetener, checkoutDetail.syrup FROM checkoutDetail JOIN product ON checkoutDetail.product_id=product.id WHERE checkout_id='" . $_SESSION["checkoutid"] . "'");
+            $results = $db_handle->runQuery("SELECT checkoutDetail.product_id, checkoutDetail.id, checkoutDetail.quantity, checkoutDetail.price, product.name, checkoutDetail.creamer, checkoutDetail.sweetener, checkoutDetail.syrup, checkoutDetail.pumps FROM checkoutDetail JOIN product ON checkoutDetail.product_id=product.id WHERE checkout_id='" . $_SESSION["checkoutid"] . "'");
             //looping through the items to display them individually along side their prices and quantities
             foreach ($results as $result) {
                 $product_id = $result["product_id"];
@@ -84,12 +85,10 @@ $db_handle->connectDB();
                 $id = $result["id"];
                 $qty = $result["quantity"];
                 $price = $result["price"];
-                $productOption = $result["options"];
+                $productOption = $result["creamer"];
                 $productOption2 = $result["sweetener"];
-
-                $productOption3Array = explode(" ", $result["syrup"]);
-                $productOption3 = $productOption3Array[0];
-                $productOption3Qty = $productOption3Array[1];
+                $productOption3 = $result["syrup"];
+                $productOption3quantity = $result["pumps"];
 
 
                 //adding price per syrup pump
@@ -124,8 +123,8 @@ $db_handle->connectDB();
                 }
                 if (!empty($productOption3) && $productOption3 != "None") {
                     $receiptDetails = $receiptDetails . "<br>" . "Syrup: " . $productOption3;
-                    if (!empty($productOption3Qty)) {
-                        $receiptDetails = $receiptDetails . "<br>" . "Syrup pumps: " . $productOption3Qty . " @ $0.25/pump";
+                    if (!empty($productOption3quantity)) {
+                        $receiptDetails = $receiptDetails . "<br>" . "Syrup pumps: " . $productOption3quantity . " @ $0.25/pump";
                     }
                 }
 

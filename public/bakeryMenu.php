@@ -38,9 +38,9 @@ $db_handle = new DBController();
                         <div class="product-tile-footer">
                         <div class="product-title"><?php echo $product_array[$key]["name"]; ?></div>
                         <div class="product-description"><?php echo $product_array[$key]["description"]; ?></div>
-                        <input type="hidden" name="creamer-options" value="None">
-                        <input type="hidden" name="sweetener-options" value="None">
-                        <input type="hidden" name="syrup-options" value="None">
+                        <input type="hidden" name="creamer-options" value="N/A">
+                        <input type="hidden" name="sweetener-options" value="N/A">
+                        <input type="hidden" name="syrup-options" value="N/A">
                         <input type="hidden" name="pumps" value="0">
                         <!-- <br>
                         <select name="creamer-options"> /the creamer options dropdown menu -->

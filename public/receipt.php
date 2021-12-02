@@ -47,14 +47,14 @@ $db_handle->connectDB();
             $reciept_uuid = guidv4();
             if (!empty($_SESSION["empLoggedin"]) && $_SESSION["empLoggedin"]) {
                 $user_id = $_SESSION["employeeid"];
-            } 
-            if  (!empty($_SESSION["username"]) && $_SESSION["userLoggedin"]) {
+            }
+            if (!empty($_SESSION["username"]) && $_SESSION["userLoggedin"]) {
                 $user_id = $_SESSION["username"];
             }
             if (empty($user_id)) {
                 $user_id = $_SERVER["REMOTE_ADDR"];
             }
-    
+
             $checkout = $db_handle->insertQuery("INSERT INTO checkout (checkoutTime, uuid, accountid) VALUE('$date_clicked', '$reciept_uuid', '$user_id')");
             $checkout_id = $db_handle->getId("SELECT id FROM checkout WHERE uuid='$reciept_uuid'");
             $_SESSION["checkoutid"] = $checkout_id;
@@ -64,8 +64,10 @@ $db_handle->connectDB();
                 $productPrice = $item["quantity"] * $item["price"];
                 $productOption = $item["creamer"];
                 $productOption2 = $item["sweetener"];
-                $detail = $db_handle->insertQuery("INSERT INTO checkoutDetail (price, product_id, checkout_id, quantity, options, sweetener)
-        VALUES('$productPrice','$productId','$checkout_id','$productQuantity', '$productOption', '$productOption2')");
+                $productOption3 = $item["syrup"];
+                $productOption3quantity = $item["pumps"];
+                $detail = $db_handle->insertQuery("INSERT INTO checkoutDetail (price, product_id, checkout_id, quantity, creamer, sweetener, syrup, pumps)
+        VALUES('$productPrice','$productId','$checkout_id','$productQuantity', '$productOption', '$productOption2', '$productOption3', '$productOption3quantity')");
             }
         }
         //initialzing total price, receipt number and date/time variables
@@ -75,7 +77,7 @@ $db_handle->connectDB();
         if (!empty($_SESSION["checkoutid"])) {
 
             //selectng all items from coffee details table
-            $results = $db_handle->runQuery("SELECT checkoutDetail.product_id, checkoutDetail.id, checkoutDetail.quantity, checkoutDetail.price, product.name, checkoutDetail.options, checkoutDetail.sweetener FROM checkoutDetail JOIN product ON checkoutDetail.product_id=product.id WHERE checkout_id='" . $_SESSION["checkoutid"] . "'");
+            $results = $db_handle->runQuery("SELECT checkoutDetail.product_id, checkoutDetail.id, checkoutDetail.quantity, checkoutDetail.price, product.name, checkoutDetail.creamer, checkoutDetail.sweetener, checkoutDetail.syrup, checkoutDetail.pumps FROM checkoutDetail JOIN product ON checkoutDetail.product_id=product.id WHERE checkout_id='" . $_SESSION["checkoutid"] . "'");
             //looping through the items to display them individually along side their prices and quantities
             foreach ($results as $result) {
                 $product_id = $result["product_id"];
@@ -83,8 +85,19 @@ $db_handle->connectDB();
                 $id = $result["id"];
                 $qty = $result["quantity"];
                 $price = $result["price"];
-                $productOption = $result["options"];
+                $productOption = $result["creamer"];
                 $productOption2 = $result["sweetener"];
+                $productOption3 = $result["syrup"];
+                $productOption3quantity = $result["pumps"];
+
+
+                //adding price per syrup pump
+                if (!empty($productOption3) && $productOption3 != "None") {
+                    if (empty($productOption3quantity)) {
+                        $productOption3quantity = 1;
+                    }
+                    $price = $price + ($productOption3quantity * 0.25);
+                }
 
                 //selecting date/time from the checkout table and id which will used for the reciept number    
                 $dateTime = $db_handle->runQuery("SELECT * FROM checkout WHERE id='" . $_SESSION["checkoutid"] . "'");
@@ -99,13 +112,26 @@ $db_handle->connectDB();
                     $name = $coffeeName["name"];
                 }
 
+
                 //displaying all required information collected from the DB
-                echo
-                $name . "<br>" . "Quantity: " . $qty .
-                    "<br>" . "Creamer: " . $productOption .
-                    "<br>" . "Sweetener: " . $productOption2 .
+                $receiptDetails = $name . "<br>" . "Quantity: " . $qty;
+                if (!empty($productOption) && $productOption != "None") {
+                    $receiptDetails = $receiptDetails . "<br>" . "Creamer: " . $productOption;
+                }
+                if (!empty($productOption2) && $productOption2 != "None") {
+                    $receiptDetails = $receiptDetails . "<br>" . "Sweetener: " . $productOption2;
+                }
+                if (!empty($productOption3) && $productOption3 != "None") {
+                    $receiptDetails = $receiptDetails . "<br>" . "Syrup: " . $productOption3;
+                    if (!empty($productOption3quantity)) {
+                        $receiptDetails = $receiptDetails . "<br>" . "Syrup pumps: " . $productOption3quantity . " @ $0.25/pump";
+                    }
+                }
+
+                $receiptDetails = $receiptDetails .
                     "<br>" . "Price: $" . number_format($price, 2) .
                     "<br><br>";
+                echo $receiptDetails;
                 $totalPrice += $price;
             }
             echo

@@ -93,10 +93,10 @@ $db_handle->connectDB();
 
                 //adding price per syrup pump
                 if (!empty($productOption3) && $productOption3 != "None") {
-                    if (empty($productOption3Qty)) {
-                        $productOption3Qty = 1;
+                    if (empty($productOption3quantity)) {
+                        $productOption3quantity = 1;
                     }
-                    $price = $price + ($productOption3Qty * 0.25);
+                    $price = $price + ($productOption3quantity * 0.25);
                 }
 
                 //selecting date/time from the checkout table and id which will used for the reciept number    

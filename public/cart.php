@@ -7,11 +7,12 @@ if (!empty($_GET["action"])) {
 		case "add":
 			if (!empty($_POST["quantity"])) {
 				$productByCode = $db_handle->runQuery("SELECT * FROM product WHERE code='" . $_GET["code"] . "'");
+				if ($_POST["syrup-options"]!="None" && $_POST["pumps"]==0) {$_POST["pumps"]=1;}
 				$k = $productByCode[0]["code"] . $_POST["creamer-options"] . $_POST["sweetener-options"] . $_POST["syrup-options"] . $_POST["pumps"];
 				$itemArray = array($k => array('name' => $productByCode[0]["name"], 'code' => $productByCode[0]["code"], 'category' => $productByCode[0]["category"], 'quantity' => $_POST["quantity"], 'price' => $productByCode[0]["price"], 'image' => $productByCode[0]["image"], 'id' => $productByCode[0]["id"], 'creamer' => $_POST["creamer-options"], 'sweetener' => $_POST["sweetener-options"], 'syrup' => $_POST["syrup-options"], 'pumps' => $_POST["pumps"]));
 				// echo $itemArray;
 				if (!empty($_SESSION["cart_item"])) {
-					$resultsArraySearch = preg_grep("/.*?" . $productByCode[0]["code"] . $_POST["creamer-options"] . $_POST["sweetener-options"] . $_POST["syrup-options"] . $_POST["pumps"] . "*?./i", array_keys($_SESSION["cart_item"]));
+					$resultsArraySearch = preg_grep("/.*?" . $productByCode[0]["code"] . $_POST["creamer-options"] . $_POST["sweetener-options"] . $_POST["syrup-options"] . $_POST["pumps"] . "+?./i", array_keys($_SESSION["cart_item"]));
 					if ($resultsArraySearch) {
 						if (empty($_SESSION["cart_item"][$k]["quantity"])) {
 							$_SESSION["cart_item"][$k]["quantity"] = 0;
@@ -105,8 +106,6 @@ if (!empty($_GET["action"])) {
 							<?php 
 								if($item["pumps"] != 0) {
 									echo "<td>" . $item['pumps'] . " pumps of " . $item['syrup'] . "</td>"; // the syrup options are supposed to print, the variable is added at the end of line 10-->
-								} elseif ($item["category"] == "bakery") {
-									echo "<td>" . $item["pumps"] . "</td>";
 								} else {
                                     echo "<td> None </td>";
                                 }?>

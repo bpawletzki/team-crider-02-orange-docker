@@ -7,11 +7,11 @@ if (!empty($_GET["action"])) {
 		case "add":
 			if (!empty($_POST["quantity"])) {
 				$productByCode = $db_handle->runQuery("SELECT * FROM product WHERE code='" . $_GET["code"] . "'");
-				$k = $productByCode[0]["code"] . $_POST["creamer-options"] . $_POST["sweetener-options"] . $_POST["syrup-options"];
+				$k = $productByCode[0]["code"] . $_POST["creamer-options"] . $_POST["sweetener-options"] . $_POST["syrup-options"] . $_POST["pumps"];
 				$itemArray = array($k => array('name' => $productByCode[0]["name"], 'code' => $productByCode[0]["code"], 'quantity' => $_POST["quantity"], 'price' => $productByCode[0]["price"], 'image' => $productByCode[0]["image"], 'id' => $productByCode[0]["id"], 'creamer' => $_POST["creamer-options"], 'sweetener' => $_POST["sweetener-options"], 'syrup' => $_POST["syrup-options"], 'pumps' => $_POST["pumps"]));
 				// echo $itemArray;
 				if (!empty($_SESSION["cart_item"])) {
-					$resultsArraySearch = preg_grep("/.*?" . $productByCode[0]["code"] . $_POST["creamer-options"] . $_POST["sweetener-options"] . $_POST["syrup-options"] . "*?./i", array_keys($_SESSION["cart_item"]));
+					$resultsArraySearch = preg_grep("/.*?" . $productByCode[0]["code"] . $_POST["creamer-options"] . $_POST["sweetener-options"] . $_POST["syrup-options"]. $_POST["pumps"] . "*?./i", array_keys($_SESSION["cart_item"]));
 					if ($resultsArraySearch) {
 						if (empty($_SESSION["cart_item"][$k]["quantity"])) {
 							$_SESSION["cart_item"][$k]["quantity"] = 0;
@@ -108,7 +108,7 @@ if (!empty($_GET["action"])) {
 							<td style="text-align:right;"><?php echo $item["quantity"]; ?></td>
 							<td style="text-align:right;"><?php echo "$ " . $item["price"]; ?></td>
 							<td style="text-align:right;"><?php echo "$ " . number_format($item_price, 2); ?></td>
-							<td style="text-align:center;"><a href="cart.php?action=remove&code=<?php echo $item["code"].$item["creamer"].$item["sweetener"].$item["syrup"]; ?>" class="btnRemoveAction"><img src="./assets/img/icon-delete.png" alt="Remove Item" /></a></td>
+							<td style="text-align:center;"><a href="cart.php?action=remove&code=<?php echo $item["code"].$item["creamer"].$item["sweetener"].$item["syrup"].$item["pumps"]; ?>" class="btnRemoveAction"><img src="./assets/img/icon-delete.png" alt="Remove Item" /></a></td>
 						</tr>
 					<?php
 						$total_quantity += $item["quantity"];

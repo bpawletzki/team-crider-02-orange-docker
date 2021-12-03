@@ -236,7 +236,11 @@ function butRowEdit(but) {
                 input = '<select class="form-control input-sm" >';
 
                 opts.forEach(function (op) {
-                    input += '<option>' + op + '</option>';
+                    if(op == cont) {
+                        input += '<option selected>' + op + '</option>';
+                    } else {
+                        input += '<option>' + op + '</option>';
+                    }
                 });
                 input += '</select>';
 

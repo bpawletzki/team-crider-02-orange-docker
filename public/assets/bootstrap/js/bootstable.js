@@ -208,7 +208,6 @@ function butRowEdit(but) {
     //Start the edition mode for a row.
     var $row = $(but).parents('tr');  //accede a la fila
     var $cols = $row.find('td');  //lee campos
-    var $category = $row.find('td:eq(3)').html();
     if (ModoEdicion($row)) return;  //Ya está en edición
     //Pone en modo de edición
     var focused = false;  //flag
@@ -237,7 +236,7 @@ function butRowEdit(but) {
                 input = '<select class="form-control input-sm" >';
 
                 opts.forEach(function (op) {
-                    if(op == $category) {
+                    if(op == cont) {
                         input += '<option selected>' + op + '</option>';
                     } else {
                         input += '<option>' + op + '</option>';

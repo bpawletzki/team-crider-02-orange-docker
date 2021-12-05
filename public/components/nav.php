@@ -19,9 +19,14 @@
                 <li class="nav-item"><a class="nav-link active" href="../ContactUs.php" style="font-family: 'Abril Fatface', serif;" data-bs-target="Contact%20Us.html">Contact Us</a></li>
                 <?php
                 if (!empty($_SESSION["empLoggedin"]) && ($_SESSION["empLoggedin"])) {
-                    echo '<li class="nav-item"><a class="nav-link active" href="../inventoryAdd.php" style="font-family: \'Abril Fatface\', serif;" data-bs-target="inventory.html">Inventory Add</a></li>';
-                    echo '<li class="nav-item"><a class="nav-link active" href="../inventoryUpdate.php" style="font-family: \'Abril Fatface\', serif;" data-bs-target="inventory.html">Inventory Update</a></li>';
-                    echo '<li class="nav-item"><a class="nav-link active" href="../employeeRegistration.php" style="font-family: \'Abril Fatface\', serif;" >Register Employee</a></li>';
+                    echo '<li class="nav-item dropdown">';
+                    echo '<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Employee Menu</a>';
+                    echo '<ul class="dropdown-menu" aria-labelledby="navbarDropdown">';
+                    echo '<li class="dropdown-item"><a class="nav-link active" href="../inventoryAdd.php" style="font-family: \'Abril Fatface\', serif;" data-bs-target="inventory.html">Inventory Add</a></li>';
+                    echo '<li class="dropdown-item"><a class="nav-link active" href="../inventoryUpdate.php" style="font-family: \'Abril Fatface\', serif;" data-bs-target="inventory.html">Inventory Update</a></li>';
+                    echo '<li class="dropdown-item"><a class="nav-link active" href="../employeeRegistration.php" style="font-family: \'Abril Fatface\', serif;" >Register Employee</a></li>';
+                    echo '<li class="dropdown-item"><a class="nav-link active" href="../weeklySales.php" style="font-family: \'Abril Fatface\', serif;" >Weekly Sales Report</a></li>';
+                    echo '</ul></li>';
                 }
                 ?>
                 <li class="nav-item"><a class="nav-link active" href="../employeeLogin.php" style="font-family: 'Abril Fatface', serif;" data-bs-target="employeeLogin.html">Employee Login</a></li>

@@ -69,6 +69,11 @@ $db_handle->connectDB();
                 $detail = $db_handle->insertQuery("INSERT INTO checkoutDetail (price, product_id, checkout_id, quantity, creamer, sweetener, syrup, pumps)
         VALUES('$productPrice','$productId','$checkout_id','$productQuantity', '$productOption', '$productOption2', '$productOption3', '$productOption3quantity')");
             }
+            #Send notification to weekly sales report node-red /checkout to let it know to update the report screen.
+            $curl = curl_init("http://node-red:1880/checkout");
+            curl_setopt($curl, CURLOPT_TIMEOUT_MS, 1);
+            $output = curl_exec($curl);
+            curl_close($curl);
         }
         //initialzing total price, receipt number and date/time variables
         $dateAndTime = "";

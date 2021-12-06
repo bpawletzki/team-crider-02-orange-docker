@@ -2,7 +2,7 @@
     {
         "id": "6db59b4d97df3692",
         "type": "tab",
-        "label": "Flow 1",
+        "label": "Websocket - Weekly Sales",
         "disabled": false,
         "info": "",
         "env": []
@@ -11,6 +11,14 @@
         "id": "09b748ff5cdf0c26",
         "type": "tab",
         "label": "DB query weekly sales",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "4afa51bec1fd4183",
+        "type": "tab",
+        "label": "HTTP - update sales",
         "disabled": false,
         "info": "",
         "env": []
@@ -39,21 +47,18 @@
         "name": "Tick every 5 secs",
         "props": [
             {
-                "p": "payload",
-                "v": "",
-                "vt": "date"
+                "p": "payload"
             },
             {
                 "p": "topic",
-                "v": "test",
                 "vt": "str"
             }
         ],
-        "repeat": "5",
+        "repeat": "300",
         "crontab": "",
         "once": false,
+        "onceDelay": "",
         "topic": "test",
-        "payload": "",
         "payloadType": "date",
         "x": 130,
         "y": 180,
@@ -139,8 +144,11 @@
         "z": "6db59b4d97df3692",
         "name": "",
         "active": true,
-        "console": "false",
+        "tosidebar": true,
+        "console": false,
         "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
         "x": 567,
         "y": 232,
         "wires": []
@@ -159,6 +167,20 @@
         "wires": [
             [
                 "50da04b3.af25fc"
+            ]
+        ]
+    },
+    {
+        "id": "fe0797b96ded0b58",
+        "type": "link in",
+        "z": "6db59b4d97df3692",
+        "name": "Request to update weekly sales",
+        "links": [],
+        "x": 65,
+        "y": 260,
+        "wires": [
+            [
+                "2cf82386969b1524"
             ]
         ]
     },
@@ -204,16 +226,17 @@
         "id": "eecf2e8e56a92420",
         "type": "debug",
         "z": "09b748ff5cdf0c26",
+        "d": true,
         "name": "",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 670,
+        "x": 690,
         "y": 460,
         "wires": []
     },
@@ -293,7 +316,7 @@
         "type": "function",
         "z": "09b748ff5cdf0c26",
         "name": "",
-        "func": "var formatter = new Intl.NumberFormat('en-US', {\n  style: 'currency',\n  currency: 'USD',\n\n  // These options are needed to round to whole numbers if that's what you want.\n  //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)\n  //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)\n});\n\n\nfunction dec2Currency(item) {\n  //node.log(item);\n  item=formatter.format(item);\n  return item;\n}\n\nvar total0=0, total1=0, total2=0, total3=0, total4=0, total5=0, total6=0, totalWeek=0, totals;\n\nfor (var i = 0; i < msg.payload.length; i ++) {\n  if (msg.payload[i].mon) {total0+=msg.payload[i].mon;msg.payload[i].mon=dec2Currency(msg.payload[i].mon);}\n  if (msg.payload[i].tue) {total1+=msg.payload[i].tue;msg.payload[i].tue=dec2Currency(msg.payload[i].tue);}\n  if (msg.payload[i].wed) {total2+=msg.payload[i].wed;msg.payload[i].wed=dec2Currency(msg.payload[i].wed);}\n  if (msg.payload[i].thr) {total3+=msg.payload[i].thr;msg.payload[i].thr=dec2Currency(msg.payload[i].thr);}\n  if (msg.payload[i].fri) {total4+=msg.payload[i].fri;msg.payload[i].fri=dec2Currency(msg.payload[i].fri);}\n  if (msg.payload[i].sat) {total5+=msg.payload[i].sat;msg.payload[i].sat=dec2Currency(msg.payload[i].sat);}\n  if (msg.payload[i].sun) {total6+=msg.payload[i].sun;msg.payload[i].sun=dec2Currency(msg.payload[i].sun);}\n  if (msg.payload[i].productTotal) {totalWeek+=msg.payload[i].productTotal;msg.payload[i].productTotal=dec2Currency(msg.payload[i].productTotal);}\n\n}\n\nif (total0==0) {total0=\"\";} else {total0=dec2Currency(total0);}\nif (total1==0) {total1=\"\";} else {total0=dec2Currency(total1);}\nif (total2==0) {total2=\"\";} else {total0=dec2Currency(total2);}\nif (total3==0) {total3=\"\";} else {total0=dec2Currency(total3);}\nif (total4==0) {total4=\"\";} else {total0=dec2Currency(total4);}\nif (total5==0) {total5=\"\";} else {total0=dec2Currency(total5);}\nif (total6==0) {total6=\"\";} else {total0=dec2Currency(total6);}\nif (totalWeek==0) {totalWeek=\"\";} else {total0=dec2Currency(totalWeek);}\n\ntotals=\"{\\\"id\\\": \\\"Totals\\\", \\\"name\\\": \\\"All Products\\\", \\\"mon\\\": \\\"\"+total0+\"\\\", \\\"tue\\\": \\\"\"+total1+\"\\\" , \\\"wed\\\": \\\"\"+total2+\"\\\", \\\"thr\\\": \\\"\"+total3+\"\\\", \\\"fri\\\": \\\"\"+total4+\"\\\", \\\"sat\\\": \\\"\"+total5+\"\\\", \\\"sun\\\": \\\"\"+total6+\"\\\", \\\"productTotal\\\": \\\"\"+totalWeek+\"\\\"}\";\nnode.log(totals);\nmsg.payload.push(JSON.parse(totals));\nreturn msg;",
+        "func": "var formatter = new Intl.NumberFormat('en-US', {\n  style: 'currency',\n  currency: 'USD',\n\n  // These options are needed to round to whole numbers if that's what you want.\n  //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)\n  //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)\n});\n\n\nfunction dec2Currency(item) {\n  //node.log(item);\n  item=formatter.format(item);\n  return item;\n}\n\nvar total0=0, total1=0, total2=0, total3=0, total4=0, total5=0, total6=0, totalWeek=0, totals;\n\nfor (var i = 0; i < msg.payload.length; i ++) {\n  if (msg.payload[i].mon) {total0+=msg.payload[i].mon;msg.payload[i].mon=dec2Currency(msg.payload[i].mon);}\n  if (msg.payload[i].tue) {total1+=msg.payload[i].tue;msg.payload[i].tue=dec2Currency(msg.payload[i].tue);}\n  if (msg.payload[i].wed) {total2+=msg.payload[i].wed;msg.payload[i].wed=dec2Currency(msg.payload[i].wed);}\n  if (msg.payload[i].thr) {total3+=msg.payload[i].thr;msg.payload[i].thr=dec2Currency(msg.payload[i].thr);}\n  if (msg.payload[i].fri) {total4+=msg.payload[i].fri;msg.payload[i].fri=dec2Currency(msg.payload[i].fri);}\n  if (msg.payload[i].sat) {total5+=msg.payload[i].sat;msg.payload[i].sat=dec2Currency(msg.payload[i].sat);}\n  if (msg.payload[i].sun) {total6+=msg.payload[i].sun;msg.payload[i].sun=dec2Currency(msg.payload[i].sun);}\n  if (msg.payload[i].productTotal) {totalWeek+=msg.payload[i].productTotal;msg.payload[i].productTotal=dec2Currency(msg.payload[i].productTotal);}\n\n}\n\nif (total0==0) {total0=\"\";} else {total0=dec2Currency(total0);}\nif (total1==0) {total1=\"\";} else {total1=dec2Currency(total1);}\nif (total2==0) {total2=\"\";} else {total2=dec2Currency(total2);}\nif (total3==0) {total3=\"\";} else {total3=dec2Currency(total3);}\nif (total4==0) {total4=\"\";} else {total4=dec2Currency(total4);}\nif (total5==0) {total5=\"\";} else {total5=dec2Currency(total5);}\nif (total6==0) {total6=\"\";} else {total6=dec2Currency(total6);}\nif (totalWeek==0) {totalWeek=\"\";} else {totalWeek=dec2Currency(totalWeek);}\n\ntotals=\"{\\\"id\\\": \\\"Totals\\\", \\\"name\\\": \\\"All Products\\\", \\\"mon\\\": \\\"\"+total0+\"\\\", \\\"tue\\\": \\\"\"+total1+\"\\\" , \\\"wed\\\": \\\"\"+total2+\"\\\", \\\"thr\\\": \\\"\"+total3+\"\\\", \\\"fri\\\": \\\"\"+total4+\"\\\", \\\"sat\\\": \\\"\"+total5+\"\\\", \\\"sun\\\": \\\"\"+total6+\"\\\", \\\"productTotal\\\": \\\"\"+totalWeek+\"\\\"}\";\n//node.log(totals);\nmsg.payload.push(JSON.parse(totals));\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -303,8 +326,71 @@
         "y": 420,
         "wires": [
             [
-                "eecf2e8e56a92420",
-                "63255288764ac4ef"
+                "63255288764ac4ef",
+                "eecf2e8e56a92420"
+            ]
+        ]
+    },
+    {
+        "id": "5511c43bfc709988",
+        "type": "http in",
+        "z": "4afa51bec1fd4183",
+        "name": "",
+        "url": "/checkout",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 210,
+        "y": 160,
+        "wires": [
+            [
+                "b123b87c7729939f"
+            ]
+        ]
+    },
+    {
+        "id": "60b4ec553c686507",
+        "type": "http response",
+        "z": "4afa51bec1fd4183",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 660,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "9b2423265195dfd2",
+        "type": "debug",
+        "z": "4afa51bec1fd4183",
+        "d": true,
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "b123b87c7729939f",
+        "type": "link call",
+        "z": "4afa51bec1fd4183",
+        "name": "",
+        "links": [
+            "fe0797b96ded0b58"
+        ],
+        "timeout": "30",
+        "x": 400,
+        "y": 240,
+        "wires": [
+            [
+                "60b4ec553c686507"
             ]
         ]
     }

@@ -25,7 +25,7 @@
                     echo '<li class="dropdown-item"><a class="nav-link active" href="../inventoryAdd.php" style="font-family: \'Abril Fatface\', serif;" data-bs-target="inventory.html">Inventory Add</a></li>';
                     echo '<li class="dropdown-item"><a class="nav-link active" href="../inventoryUpdate.php" style="font-family: \'Abril Fatface\', serif;" data-bs-target="inventory.html">Inventory Update</a></li>';
                     echo '<li class="dropdown-item"><a class="nav-link active" href="../employeeRegistration.php" style="font-family: \'Abril Fatface\', serif;" >Register Employee</a></li>';
-                    echo '<li class="dropdown-item"><a class="nav-link active" href="../weeklySales.php" style="font-family: \'Abril Fatface\', serif;" >Weekly Sales Report</a></li>';
+                    echo '<li class="dropdown-item"><a class="nav-link active" href="../weeklySales.php" style="font-family: \'Abril Fatface\', serif;" >Weekly Report</a></li>';
                     echo '</ul></li>';
                 }
                 ?>

@@ -17,10 +17,63 @@ $db_handle = new DBController();
 
     <title>Love You A Latte</title>
     <?php include('./components/header.php') ?>
+    <script type="text/javascript">
+        var ws;
+        var wsUri = "ws:";
+        var loc = window.location;
+        console.log(loc);
+        if (loc.protocol === "https:") {
+            wsUri = "wss:";
+        }
+        // This needs to point to the web socket in the Node-RED flow
+        // ... in this case it's ws/simple
+        wsUri += "//" + loc.host + ":1880" + loc.pathname.replace("simple", "ws/simple");
+        wsUri = "ws://" + loc.host + ":1880/ws/simple";
 
+        function wsConnect() {
+            console.log("connect", wsUri);
+            ws = new WebSocket(wsUri);
+
+            //var line = "";    // either uncomment this for a building list of messages
+            ws.onmessage = function(msg) {
+                var vDate = new Date();
+                var line = ""; // or uncomment this to overwrite the existing message
+                // parse the incoming message as a JSON object
+                var data = msg.data;
+                //console.log(data);
+                // build the output from the topic and payload parts of the object
+                line += "<p>" + data + "</p>";
+                // replace the messages div with the new "line"
+                document.getElementById('messages').innerHTML = line;
+                document.getElementById('status').innerHTML = "Connected: Last update: " + vDate.toLocaleTimeString();
+
+                //ws.send(JSON.stringify({data:data}));
+            }
+            ws.onopen = function() {
+                var vDate = new Date();
+                // update the status div with the connection status
+                document.getElementById('status').innerHTML = "Connected: Last update: " + vDate.toLocaleTimeString();
+                //ws.send("Open for data");
+                console.log("connected");
+            }
+            ws.onclose = function() {
+                var vDate = new Date();
+                // update the status div with the connection status
+                document.getElementById('status').innerHTML = "Not Connected: Last update: " + vDate.toLocaleTimeString();
+                // in case of lost connection tries to reconnect every 3 secs
+                setTimeout(wsConnect, 3000);
+            }
+        }
+
+        function doit(m) {
+            if (ws) {
+                ws.send(m);
+            }
+        }
+    </script>
 </head>
 
-<body>
+<body onload="wsConnect();" onunload="ws.disconnect();">
     <?php include('./components/nav.php') ?>
     <div id="inventory">
         <div class="bg-light border rounded border-light jumbotron py-5 px-4">
@@ -30,9 +83,10 @@ $db_handle = new DBController();
     </div>
 
     <div class="container site-section" id="inventoryDetails">
-        <h1 style="font-family: 'Abril Fatface', serif;">&nbsp;</h1>
-        <div id="dataTable">
-          <table class="table table-hover table-dark">
+        <br>
+        <span>Live data feed: </span><span id="status">unknown</span>
+<p></p>
+        <div id="messages"><table class="table table-hover table-dark table-sm">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -49,32 +103,31 @@ $db_handle = new DBController();
                 </thead>
                 <tbody>
                     <?php
-                    $product_array = $db_handle->runQuery("SELECT i.id, i.name,
-                    SUM(CASE WHEN vdayOfWeek = 0 THEN coalesce(total,0) END) \"0\",
-                    SUM(CASE WHEN vdayOfWeek = 1 THEN coalesce(total,0) END) \"1\",
-                    SUM(CASE WHEN vdayOfWeek = 2 THEN coalesce(total,0) END) \"2\",
-                    SUM(CASE WHEN vdayOfWeek = 3 THEN coalesce(total,0) END) \"3\",
-                    SUM(CASE WHEN vdayOfWeek = 4 THEN coalesce(total,0) END) \"4\",
-                    SUM(CASE WHEN vdayOfWeek = 5 THEN coalesce(total,0) END) \"5\",
-                    SUM(CASE WHEN vdayOfWeek = 6 THEN coalesce(total,0) END) \"6\",
-                    sum(total) as productTotal
-                    FROM (select p.id, p.name, sum(cd.price)+sum(cd.pumps)*0.25 as total, weekday(c.checkoutTime) as vdayOfWeek
-                    FROM product as p
-                    LEFT JOIN checkoutDetail as cd ON p.id=cd.product_id
-                    LEFT JOIN checkout as c ON cd.checkout_id=c.id
-                    WHERE c.checkoutTime>DATE_ADD(c.checkoutTime, INTERVAL -1 WEEK) OR c.checkoutTime is Null
-                    GROUP BY p.id) as i
-                    GROUP BY i.id
-                    ORDER BY i.id
+                    $product_array = $db_handle->runQuery("SELECT i.id, i.name, 
+                    CAST(SUM(CASE WHEN vdayOfWeek = 0 THEN coalesce(total,0) END) * 1.00 AS DECIMAL(18,2)) AS \"mon\", 
+                    CAST(SUM(CASE WHEN vdayOfWeek = 1 THEN coalesce(total,0) END) * 1.00  AS DECIMAL(18,2)) AS \"tue\", 
+                    CAST(SUM(CASE WHEN vdayOfWeek = 2 THEN coalesce(total,0) END) * 1.00  AS DECIMAL(18,2)) AS \"wed\", 
+                    CAST(SUM(CASE WHEN vdayOfWeek = 3 THEN coalesce(total,0) END) * 1.00  AS DECIMAL(18,2)) AS \"thr\", 
+                    CAST(SUM(CASE WHEN vdayOfWeek = 4 THEN coalesce(total,0) END) * 1.00  AS DECIMAL(18,2)) AS \"fri\", 
+                    CAST(SUM(CASE WHEN vdayOfWeek = 5 THEN coalesce(total,0) END) * 1.00  AS DECIMAL(18,2)) AS \"sat\", 
+                    CAST(SUM(CASE WHEN vdayOfWeek = 6 THEN coalesce(total,0) END) * 1.00 AS DECIMAL(18,2)) AS \"sun\", 
+                    CAST(sum(total) * 1.00 AS DECIMAL(18,2)) as productTotal FROM (select p.id, p.name, 
+                    sum(cd.price)+sum(cd.pumps)*0.25 as total, 
+                    weekday(c.checkoutTime) as vdayOfWeek 
+                    FROM product as p 
+                    LEFT JOIN checkoutDetail as cd ON p.id=cd.product_id 
+                    LEFT JOIN checkout as c ON cd.checkout_id=c.id 
+                    WHERE c.checkoutTime>DATE_ADD(c.checkoutTime, INTERVAL -1 WEEK) OR c.checkoutTime is Null GROUP BY p.id) as i GROUP BY i.id ORDER BY i.id ;
+                    
                     ");
-                    $total0=0;
-                    $total1=0;
-                    $total2=0;
-                    $total3=0;
-                    $total4=0;
-                    $total5=0;
-                    $total6=0;
-                    $totalWeek=0;
+                    $total0 = 0;
+                    $total1 = 0;
+                    $total2 = 0;
+                    $total3 = 0;
+                    $total4 = 0;
+                    $total5 = 0;
+                    $total6 = 0;
+                    $totalWeek = 0;
 
                     if (!empty($product_array)) {
                         foreach ($product_array as $key => $value) {
@@ -82,35 +135,76 @@ $db_handle = new DBController();
                             <tr>
                                 <th scope="row"><?php echo $product_array[$key]["id"]; ?></th>
                                 <td><?php echo $product_array[$key]["name"]; ?></td>
-                                <td><?php if (($product_array[$key]["0"])!=0) {printf("$%.2f", $product_array[$key]["0"]);$total0=$product_array[$key]["0"]+$total0;}; ?></td>
-                                <td><?php if (($product_array[$key]["1"])!=0) {printf("$%.2f", $product_array[$key]["1"]);$total1=$product_array[$key]["1"]+$total1;}; ?></td>
-                                <td><?php if (($product_array[$key]["2"])!=0) {printf("$%.2f", $product_array[$key]["2"]);$total2=$product_array[$key]["2"]+$total2;}; ?></td>
-                                <td><?php if (($product_array[$key]["3"])!=0) {printf("$%.2f", $product_array[$key]["3"]);$total3=$product_array[$key]["3"]+$total3;}; ?></td>
-                                <td><?php if (($product_array[$key]["4"])!=0) {printf("$%.2f", $product_array[$key]["4"]);$total4=$product_array[$key]["4"]+$total4;}; ?></td>
-                                <td><?php if (($product_array[$key]["5"])!=0) {printf("$%.2f", $product_array[$key]["5"]);$total5=$product_array[$key]["5"]+$total5;}; ?></td>
-                                <td><?php if (($product_array[$key]["6"])!=0) {printf("$%.2f", $product_array[$key]["6"]);$total6=$product_array[$key]["6"]+$total6;}; ?></td>
-                                <td><?php if (($product_array[$key]["productTotal"])!=0) {printf("$%.2f", $product_array[$key]["productTotal"]);$totalWeek=$product_array[$key]["productTotal"]+$totalWeek;}; ?></td>
+                                <td><?php if (($product_array[$key]["mon"]) != 0) {
+                                        printf("$%.2f", $product_array[$key]["mon"]);
+                                        $total0 = $product_array[$key]["mon"] + $total0;
+                                    }; ?></td>
+                                <td><?php if (($product_array[$key]["tue"]) != 0) {
+                                        printf("$%.2f", $product_array[$key]["tue"]);
+                                        $total1 = $product_array[$key]["tue"] + $total1;
+                                    }; ?></td>
+                                <td><?php if (($product_array[$key]["wed"]) != 0) {
+                                        printf("$%.2f", $product_array[$key]["wed"]);
+                                        $total2 = $product_array[$key]["wed"] + $total2;
+                                    }; ?></td>
+                                <td><?php if (($product_array[$key]["thr"]) != 0) {
+                                        printf("$%.2f", $product_array[$key]["thr"]);
+                                        $total3 = $product_array[$key]["thr"] + $total3;
+                                    }; ?></td>
+                                <td><?php if (($product_array[$key]["fri"]) != 0) {
+                                        printf("$%.2f", $product_array[$key]["fri"]);
+                                        $total4 = $product_array[$key]["fri"] + $total4;
+                                    }; ?></td>
+                                <td><?php if (($product_array[$key]["sat"]) != 0) {
+                                        printf("$%.2f", $product_array[$key]["sat"]);
+                                        $total5 = $product_array[$key]["sat"] + $total5;
+                                    }; ?></td>
+                                <td><?php if (($product_array[$key]["sun"]) != 0) {
+                                        printf("$%.2f", $product_array[$key]["sun"]);
+                                        $total6 = $product_array[$key]["sun"] + $total6;
+                                    }; ?></td>
+                                <td><?php if (($product_array[$key]["productTotal"]) != 0) {
+                                        printf("$%.2f", $product_array[$key]["productTotal"]);
+                                        $totalWeek = $product_array[$key]["productTotal"] + $totalWeek;
+                                    }; ?></td>
                             </tr>
-                    <?php
+                        <?php
                         }
                         ?>
                         <tr>
-                        <th scope="row">Totals</th>
-                        <td>All Products</td>
-                        <td><?php if (($product_array[$key]["0"])!=0) {printf("$%.2f", $total0);}; ?></td>
-                        <td><?php if (($product_array[$key]["1"])!=0) {printf("$%.2f", $total1);}; ?></td>
-                        <td><?php if (($product_array[$key]["2"])!=0) {printf("$%.2f", $total2);}; ?></td>
-                        <td><?php if (($product_array[$key]["3"])!=0) {printf("$%.2f", $total3);}; ?></td>
-                        <td><?php if (($product_array[$key]["4"])!=0) {printf("$%.2f", $total4);}; ?></td>
-                        <td><?php if (($product_array[$key]["5"])!=0) {printf("$%.2f", $total5);}; ?></td>
-                        <td><?php if (($product_array[$key]["6"])!=0) {printf("$%.2f", $total6);}; ?></td>
-                        <td><?php if (($product_array[$key]["productTotal"])!=0) {printf("$%.2f", $totalWeek);}; ?></td>
-                       </tr>
+                            <th scope="row">Totals</th>
+                            <td>All Products</td>
+                            <td><?php if (($product_array[$key]["mon"]) != 0) {
+                                    printf("$%.2f", $total0);
+                                }; ?></td>
+                            <td><?php if (($product_array[$key]["tue"]) != 0) {
+                                    printf("$%.2f", $total1);
+                                }; ?></td>
+                            <td><?php if (($product_array[$key]["wed"]) != 0) {
+                                    printf("$%.2f", $total2);
+                                }; ?></td>
+                            <td><?php if (($product_array[$key]["thr"]) != 0) {
+                                    printf("$%.2f", $total3);
+                                }; ?></td>
+                            <td><?php if (($product_array[$key]["fri"]) != 0) {
+                                    printf("$%.2f", $total4);
+                                }; ?></td>
+                            <td><?php if (($product_array[$key]["sat"]) != 0) {
+                                    printf("$%.2f", $total5);
+                                }; ?></td>
+                            <td><?php if (($product_array[$key]["sun"]) != 0) {
+                                    printf("$%.2f", $total6);
+                                }; ?></td>
+                            <td><?php if (($product_array[$key]["productTotal"]) != 0) {
+                                    printf("$%.2f", $totalWeek);
+                                }; ?></td>
+                        </tr>
                     <?php
                     }
                     ?>
                 </tbody>
             </table>
+            <p></p>
         </div>
     </div><br>
     <div class="container site-section" id=responseStatusDisplay></div>

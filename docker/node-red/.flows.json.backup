@@ -226,6 +226,7 @@
         "id": "eecf2e8e56a92420",
         "type": "debug",
         "z": "09b748ff5cdf0c26",
+        "d": true,
         "name": "",
         "active": true,
         "tosidebar": true,

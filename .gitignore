@@ -1,2 +1,5 @@
 # Don't track these folders
 data/
+docker/node-red/node_modules/
+docker/node-red/lib/flows/
+docker/node-red/.npm/

@@ -58,6 +58,18 @@ services:
         volumes:
             - ./data/:/var/lib/mysql
             - ./docker/mariadb/init/:/docker-entrypoint-initdb.d
+    node-red:
+        container_name: node-red
+        image: nodered/node-red:latest
+        environment:
+          - TZ=US/Eastern
+        ports:
+          - "1880:1880"
+          - "1881:1881"
+        volumes:
+          - ./docker/node-red:/data
+        networks:
+          - app-network
 
 networks:
   app-network:

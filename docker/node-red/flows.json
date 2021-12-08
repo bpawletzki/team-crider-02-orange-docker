@@ -1,0 +1,397 @@
+[
+    {
+        "id": "6db59b4d97df3692",
+        "type": "tab",
+        "label": "Websocket - Weekly Sales",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "09b748ff5cdf0c26",
+        "type": "tab",
+        "label": "DB query weekly sales",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "4afa51bec1fd4183",
+        "type": "tab",
+        "label": "HTTP - update sales",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "985ecbc7.67a138",
+        "type": "websocket-listener",
+        "z": "6db59b4d97df3692",
+        "path": "/ws/simple",
+        "wholemsg": "false"
+    },
+    {
+        "id": "99875677685c2e1f",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "mariadb",
+        "port": "3306",
+        "db": "love_you_a_latte",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "e3e4522e.1c1bb",
+        "type": "inject",
+        "z": "6db59b4d97df3692",
+        "name": "Inject update",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "test",
+        "payloadType": "date",
+        "x": 110,
+        "y": 180,
+        "wires": [
+            [
+                "2cf82386969b1524"
+            ]
+        ]
+    },
+    {
+        "id": "50da04b3.af25fc",
+        "type": "websocket out",
+        "z": "6db59b4d97df3692",
+        "name": "",
+        "server": "985ecbc7.67a138",
+        "client": "",
+        "x": 590,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "42a28745.bd5d78",
+        "type": "http response",
+        "z": "6db59b4d97df3692",
+        "name": "",
+        "x": 561,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "1787be40.e87842",
+        "type": "http in",
+        "z": "6db59b4d97df3692",
+        "name": "",
+        "url": "/simple",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 192,
+        "y": 120,
+        "wires": [
+            [
+                "1857548e.e7a8ab"
+            ]
+        ]
+    },
+    {
+        "id": "1857548e.e7a8ab",
+        "type": "template",
+        "z": "6db59b4d97df3692",
+        "name": "Simple Web Page",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "<!DOCTYPE HTML>\n<html>\n    <head>\n    <title>Simple Live Display</title>\n    <script type=\"text/javascript\">\n        var ws;\n        var wsUri = \"ws:\";\n        var loc = window.location;\n        console.log(loc);\n        if (loc.protocol === \"https:\") { wsUri = \"wss:\"; }\n        // This needs to point to the web socket in the Node-RED flow\n        // ... in this case it's ws/simple\n        wsUri += \"//\" + loc.host + loc.pathname.replace(\"simple\",\"ws/simple\");\n\n        function wsConnect() {\n            console.log(\"connect\",wsUri);\n            ws = new WebSocket(wsUri);\n            //var line = \"\";    // either uncomment this for a building list of messages\n            ws.onmessage = function(msg) {\n                var line = \"\";  // or uncomment this to overwrite the existing message\n                // parse the incoming message as a JSON object\n                var data = msg.data;\n                //console.log(data);\n                // build the output from the topic and payload parts of the object\n                line += \"<p>\"+data+\"</p>\";\n                // replace the messages div with the new \"line\"\n                document.getElementById('messages').innerHTML = line;\n                //ws.send(JSON.stringify({data:data}));\n            }\n            ws.onopen = function() {\n                // update the status div with the connection status\n                document.getElementById('status').innerHTML = \"connected\";\n                //ws.send(\"Open for data\");\n                console.log(\"connected\");\n            }\n            ws.onclose = function() {\n                // update the status div with the connection status\n                document.getElementById('status').innerHTML = \"not connected\";\n                // in case of lost connection tries to reconnect every 3 secs\n                setTimeout(wsConnect,3000);\n            }\n        }\n        \n        function doit(m) {\n            if (ws) { ws.send(m); }\n        }\n    </script>\n    </head>\n    <body onload=\"wsConnect();\" onunload=\"ws.disconnect();\">\n        <font face=\"Arial\">\n        <h1>Simple Live Display</h1>\n        <div id=\"messages\"></div>\n        <button type=\"button\" onclick='doit(\"click\");'>Click to send message</button>\n        <hr/>\n        <div id=\"status\">unknown</div>\n        </font>\n    </body>\n</html>\n",
+        "x": 389,
+        "y": 120,
+        "wires": [
+            [
+                "42a28745.bd5d78"
+            ]
+        ]
+    },
+    {
+        "id": "eccc8bc2.133378",
+        "type": "websocket in",
+        "z": "6db59b4d97df3692",
+        "name": "",
+        "server": "985ecbc7.67a138",
+        "client": "",
+        "x": 377,
+        "y": 232,
+        "wires": [
+            [
+                "9adfff59.652"
+            ]
+        ]
+    },
+    {
+        "id": "9adfff59.652",
+        "type": "debug",
+        "z": "6db59b4d97df3692",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 567,
+        "y": 232,
+        "wires": []
+    },
+    {
+        "id": "2cf82386969b1524",
+        "type": "link call",
+        "z": "6db59b4d97df3692",
+        "name": "",
+        "links": [
+            "d8dd4061d9386138"
+        ],
+        "timeout": "30",
+        "x": 350,
+        "y": 180,
+        "wires": [
+            [
+                "50da04b3.af25fc"
+            ]
+        ]
+    },
+    {
+        "id": "fe0797b96ded0b58",
+        "type": "link in",
+        "z": "6db59b4d97df3692",
+        "name": "Request to update weekly sales",
+        "links": [],
+        "x": 65,
+        "y": 260,
+        "wires": [
+            [
+                "2cf82386969b1524"
+            ]
+        ]
+    },
+    {
+        "id": "e944a73a51695d16",
+        "type": "mysql",
+        "z": "09b748ff5cdf0c26",
+        "mydb": "99875677685c2e1f",
+        "name": "",
+        "x": 370,
+        "y": 240,
+        "wires": [
+            [
+                "9bf30a17a4d66f55"
+            ]
+        ]
+    },
+    {
+        "id": "1f03e2ce3527a154",
+        "type": "inject",
+        "z": "09b748ff5cdf0c26",
+        "name": "",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 90,
+        "y": 60,
+        "wires": [
+            [
+                "136e4aadf56652ce"
+            ]
+        ]
+    },
+    {
+        "id": "eecf2e8e56a92420",
+        "type": "debug",
+        "z": "09b748ff5cdf0c26",
+        "d": true,
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "136e4aadf56652ce",
+        "type": "change",
+        "z": "09b748ff5cdf0c26",
+        "name": "SQL SELECT for Weekly Sales",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "SELECT i.id, i.name,  CAST(SUM(CASE WHEN vdayOfWeek = 0 THEN coalesce(total,0) END) * 1.00 AS DECIMAL(18,2)) AS \"mon\",  CAST(SUM(CASE WHEN vdayOfWeek = 1 THEN coalesce(total,0) END) * 1.00 AS DECIMAL(18,2)) \"tue\",  CAST(SUM(CASE WHEN vdayOfWeek = 2 THEN coalesce(total,0) END) * 1.00 AS DECIMAL(18,2)) \"wed\",  CAST(SUM(CASE WHEN vdayOfWeek = 3 THEN coalesce(total,0) END) * 1.00 AS DECIMAL(18,2)) \"thr\",  CAST(SUM(CASE WHEN vdayOfWeek = 4 THEN coalesce(total,0) END) * 1.00 AS DECIMAL(18,2)) \"fri\",  CAST(SUM(CASE WHEN vdayOfWeek = 5 THEN coalesce(total,0) END) * 1.00 AS DECIMAL(18,2)) \"sat\",  CAST(SUM(CASE WHEN vdayOfWeek = 6 THEN coalesce(total,0) END) * 1.00 AS DECIMAL(18,2)) \"sun\",  CAST(sum(total) * 1.00 AS DECIMAL(18,2)) as productTotal FROM (select p.id, p.name,  sum(cd.price)+(cd.quantity*sum(cd.pumps)*0.25) as total,  weekday(c.checkoutTime) as vdayOfWeek  FROM product as p  LEFT JOIN checkoutDetail as cd ON p.id=cd.product_id  LEFT JOIN checkout as c ON cd.checkout_id=c.id  WHERE c.checkoutTime>DATE_ADD(c.checkoutTime, INTERVAL -1 WEEK) OR c.checkoutTime is Null GROUP BY p.id, vdayOfWeek) as i GROUP BY i.id ORDER BY i.id ;",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 370,
+        "y": 140,
+        "wires": [
+            [
+                "e944a73a51695d16"
+            ]
+        ]
+    },
+    {
+        "id": "d8dd4061d9386138",
+        "type": "link in",
+        "z": "09b748ff5cdf0c26",
+        "name": "Link in",
+        "links": [],
+        "x": 45,
+        "y": 160,
+        "wires": [
+            [
+                "136e4aadf56652ce"
+            ]
+        ]
+    },
+    {
+        "id": "c1f13a818c687986",
+        "type": "link out",
+        "z": "09b748ff5cdf0c26",
+        "name": "",
+        "mode": "return",
+        "links": [],
+        "x": 625,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "63255288764ac4ef",
+        "type": "template",
+        "z": "09b748ff5cdf0c26",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "<table class=\"table table-hover table-dark table-sm\">\n    <thead>\n        <tr>\n            <th scope=\"col\">#</th>\n            <th scope=\"col\">Product</th>\n            <th scope=\"col\">Monday</th>\n            <th scope=\"col\">Tuesday</th>\n            <th scope=\"col\">Wednesday</th>\n            <th scope=\"col\">Thursday</th>\n            <th scope=\"col\">Friday</th>\n            <th scope=\"col\">Saturday</th>\n            <th scope=\"col\">Sunday</th>\n            <th scope=\"col\">Total</th>\n        </tr>\n    </thead>\n    <tbody>\n        {{#payload}}\n        <tr>\n            <th>{{id}}</th>\n            <td>{{name}}</td>\n            <td>{{mon}}</td>\n            <td>{{tue}}</td>\n            <td>{{wed}}</td>\n            <td>{{thr}}</td>\n            <td>{{fri}}</td>\n            <td>{{sat}}</td>\n            <td>{{sun}}</td>\n            <td>{{productTotal}}</td>\n        </tr>\n        {{/payload}}\n    </tbody>\n</table>\n\n",
+        "output": "str",
+        "x": 680,
+        "y": 380,
+        "wires": [
+            [
+                "c1f13a818c687986"
+            ]
+        ]
+    },
+    {
+        "id": "9bf30a17a4d66f55",
+        "type": "function",
+        "z": "09b748ff5cdf0c26",
+        "name": "",
+        "func": "var formatter = new Intl.NumberFormat('en-US', {\n  style: 'currency',\n  currency: 'USD',\n\n  // These options are needed to round to whole numbers if that's what you want.\n  //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)\n  //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)\n});\n\n\nfunction dec2Currency(item) {\n  //node.log(item);\n  item=formatter.format(item);\n  return item;\n}\n\nvar total0=0, total1=0, total2=0, total3=0, total4=0, total5=0, total6=0, totalWeek=0, totals;\n\nfor (var i = 0; i < msg.payload.length; i ++) {\n  if (msg.payload[i].mon) {total0+=msg.payload[i].mon;msg.payload[i].mon=dec2Currency(msg.payload[i].mon);}\n  if (msg.payload[i].tue) {total1+=msg.payload[i].tue;msg.payload[i].tue=dec2Currency(msg.payload[i].tue);}\n  if (msg.payload[i].wed) {total2+=msg.payload[i].wed;msg.payload[i].wed=dec2Currency(msg.payload[i].wed);}\n  if (msg.payload[i].thr) {total3+=msg.payload[i].thr;msg.payload[i].thr=dec2Currency(msg.payload[i].thr);}\n  if (msg.payload[i].fri) {total4+=msg.payload[i].fri;msg.payload[i].fri=dec2Currency(msg.payload[i].fri);}\n  if (msg.payload[i].sat) {total5+=msg.payload[i].sat;msg.payload[i].sat=dec2Currency(msg.payload[i].sat);}\n  if (msg.payload[i].sun) {total6+=msg.payload[i].sun;msg.payload[i].sun=dec2Currency(msg.payload[i].sun);}\n  if (msg.payload[i].productTotal) {totalWeek+=msg.payload[i].productTotal;msg.payload[i].productTotal=dec2Currency(msg.payload[i].productTotal);}\n\n}\n\nif (total0==0) {total0=\"\";} else {total0=dec2Currency(total0);}\nif (total1==0) {total1=\"\";} else {total1=dec2Currency(total1);}\nif (total2==0) {total2=\"\";} else {total2=dec2Currency(total2);}\nif (total3==0) {total3=\"\";} else {total3=dec2Currency(total3);}\nif (total4==0) {total4=\"\";} else {total4=dec2Currency(total4);}\nif (total5==0) {total5=\"\";} else {total5=dec2Currency(total5);}\nif (total6==0) {total6=\"\";} else {total6=dec2Currency(total6);}\nif (totalWeek==0) {totalWeek=\"\";} else {totalWeek=dec2Currency(totalWeek);}\n\ntotals=\"{\\\"id\\\": \\\"Totals\\\", \\\"name\\\": \\\"All Products\\\", \\\"mon\\\": \\\"\"+total0+\"\\\", \\\"tue\\\": \\\"\"+total1+\"\\\" , \\\"wed\\\": \\\"\"+total2+\"\\\", \\\"thr\\\": \\\"\"+total3+\"\\\", \\\"fri\\\": \\\"\"+total4+\"\\\", \\\"sat\\\": \\\"\"+total5+\"\\\", \\\"sun\\\": \\\"\"+total6+\"\\\", \\\"productTotal\\\": \\\"\"+totalWeek+\"\\\"}\";\n//node.log(totals);\nmsg.payload.push(JSON.parse(totals));\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 420,
+        "wires": [
+            [
+                "63255288764ac4ef",
+                "eecf2e8e56a92420"
+            ]
+        ]
+    },
+    {
+        "id": "5511c43bfc709988",
+        "type": "http in",
+        "z": "4afa51bec1fd4183",
+        "name": "",
+        "url": "/checkout",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 210,
+        "y": 160,
+        "wires": [
+            [
+                "b123b87c7729939f"
+            ]
+        ]
+    },
+    {
+        "id": "60b4ec553c686507",
+        "type": "http response",
+        "z": "4afa51bec1fd4183",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 660,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "9b2423265195dfd2",
+        "type": "debug",
+        "z": "4afa51bec1fd4183",
+        "d": true,
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "b123b87c7729939f",
+        "type": "link call",
+        "z": "4afa51bec1fd4183",
+        "name": "",
+        "links": [
+            "fe0797b96ded0b58"
+        ],
+        "timeout": "1",
+        "x": 400,
+        "y": 240,
+        "wires": [
+            [
+                "60b4ec553c686507"
+            ]
+        ]
+    }
+]

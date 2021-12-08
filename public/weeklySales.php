@@ -28,7 +28,7 @@ $db_handle = new DBController();
         // This needs to point to the web socket in the Node-RED flow
         // ... in this case it's ws/simple
         wsUri += "//" + loc.host + ":1880" + loc.pathname.replace("simple", "ws/simple");
-        wsUri = "ws://" + loc.host + ":1880/ws/simple";
+        wsUri = "wss://capstoneorange02-env.eba-3h2pxmkf.us-east-1.elasticbeanstalk.com:1883/ws/simple";
 
         function wsConnect() {
             console.log("connect", wsUri);
@@ -50,16 +50,14 @@ $db_handle = new DBController();
                 //ws.send(JSON.stringify({data:data}));
             }
             ws.onopen = function() {
-                var vDate = new Date();
                 // update the status div with the connection status
-                document.getElementById('status').innerHTML = "Connected: Last update: " + vDate.toLocaleTimeString();
+                document.getElementById('status').innerHTML = "Connected";
                 //ws.send("Open for data");
                 console.log("connected");
             }
             ws.onclose = function() {
-                var vDate = new Date();
                 // update the status div with the connection status
-                document.getElementById('status').innerHTML = "Not Connected: Last update: " + vDate.toLocaleTimeString();
+                document.getElementById('status').innerHTML = "Not Connected";
                 // in case of lost connection tries to reconnect every 3 secs
                 setTimeout(wsConnect, 3000);
             }

@@ -52,14 +52,14 @@ $db_handle = new DBController();
             ws.onopen = function() {
                 var vDate = new Date();
                 // update the status div with the connection status
-                document.getElementById('status').innerHTML = "Connected: Last update: " + vDate.toLocaleTimeString();
+                document.getElementById('status').innerHTML = "Connected";
                 //ws.send("Open for data");
                 console.log("connected");
             }
             ws.onclose = function() {
                 var vDate = new Date();
                 // update the status div with the connection status
-                document.getElementById('status').innerHTML = "Not Connected: Last update: " + vDate.toLocaleTimeString();
+                document.getElementById('status').innerHTML = "Not Connected";
                 // in case of lost connection tries to reconnect every 3 secs
                 setTimeout(wsConnect, 3000);
             }

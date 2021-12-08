@@ -115,7 +115,7 @@ $db_handle = new DBController();
                     FROM product as p 
                     LEFT JOIN checkoutDetail as cd ON p.id=cd.product_id 
                     LEFT JOIN checkout as c ON cd.checkout_id=c.id 
-                    WHERE c.checkoutTime>DATE_ADD(c.checkoutTime, INTERVAL -1 WEEK) OR c.checkoutTime is Null GROUP BY p.id) as i GROUP BY i.id ORDER BY i.id ;
+                    WHERE c.checkoutTime>DATE_ADD(c.checkoutTime, INTERVAL -1 WEEK) OR c.checkoutTime is Null GROUP BY p.id, vdayOfWeek) as i GROUP BY i.id ORDER BY i.id ;
                     
                     ");
                     $total0 = 0;

@@ -28,7 +28,7 @@ $db_handle = new DBController();
         // This needs to point to the web socket in the Node-RED flow
         // ... in this case it's ws/simple
         wsUri += "//" + loc.host + ":1880" + loc.pathname.replace("simple", "ws/simple");
-        wsUri = "ws://" + loc.host + ":1880/ws/simple";
+        wsUri = "wss://capstoneorange02-env.eba-3h2pxmkf.us-east-1.elasticbeanstalk.com:1883/ws/simple";
 
         function wsConnect() {
             console.log("connect", wsUri);

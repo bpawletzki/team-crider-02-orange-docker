@@ -44,7 +44,7 @@
         "id": "e3e4522e.1c1bb",
         "type": "inject",
         "z": "6db59b4d97df3692",
-        "name": "Tick every 5 secs",
+        "name": "Inject update",
         "props": [
             {
                 "p": "payload"
@@ -54,13 +54,13 @@
                 "vt": "str"
             }
         ],
-        "repeat": "300",
+        "repeat": "",
         "crontab": "",
         "once": false,
         "onceDelay": "",
         "topic": "test",
         "payloadType": "date",
-        "x": 130,
+        "x": 110,
         "y": 180,
         "wires": [
             [

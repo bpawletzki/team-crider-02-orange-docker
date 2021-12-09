@@ -110,7 +110,7 @@ $db_handle = new DBController();
                     CAST(SUM(CASE WHEN vdayOfWeek = 5 THEN coalesce(total,0) END) * 1.00  AS DECIMAL(18,2)) AS \"sat\", 
                     CAST(SUM(CASE WHEN vdayOfWeek = 6 THEN coalesce(total,0) END) * 1.00 AS DECIMAL(18,2)) AS \"sun\", 
                     CAST(sum(total) * 1.00 AS DECIMAL(18,2)) as productTotal FROM (select p.id, p.name, 
-                    sum(cd.price)+(cd.quantity*sum(cd.pumps)*0.25) as total, 
+                    sum(cd.price)+(cd.quantity*sum(cd.pumps)*0.25)+(cd.quantity*sum(cd.shots)*1.50) as total, 
                     weekday(c.checkoutTime) as vdayOfWeek 
                     FROM product as p 
                     LEFT JOIN checkoutDetail as cd ON p.id=cd.product_id 
@@ -206,8 +206,6 @@ $db_handle = new DBController();
         </div>
     </div><br>
     <div class="container site-section" id=responseStatusDisplay></div>
-    <script type="text/javascript" src="./assets/js/jquery.min.js"></script>
-    <script type="text/javascript" src="./assets/bootstrap/js/bootstrap.min.js"></script>
     <?php include('./components/footer.php') ?>
 </body>
 

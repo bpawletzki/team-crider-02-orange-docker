@@ -41,7 +41,7 @@ CREATE TABLE `checkoutDetail` (
   `sweetener` varchar(256) NOT NULL,
   `syrup` varchar(256) NOT NULL,
   `pumps` VARCHAR(256) NOT NULL DEFAULT 0,
-
+  `shots` VARCHAR(256) NOT NULL DEFAULT 0,
 PRIMARY KEY (`id`),
   KEY `fk_to_product` (`product_id`),
   KEY `fk_to_checkout` (`checkout_id`),

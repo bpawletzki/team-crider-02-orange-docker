@@ -101,14 +101,13 @@ $db_handle->connectDB();
                 if (!empty($productOption3) && $productOption3 != "None" && $productOption3 != "N/A") {
                     if (empty($productOption3quantity)) {
                         $productOption3quantity = 1;
+                    } else {
+                        $price = $productQuantity * ($item_price + ($productOption3quantity * 0.25) + ($productOption4 * 1.5));
                     }
-                    else{
-                        $price = $productQuantity*($item_price + ($productOption3quantity * 0.25)+($productOption4*1.5));
-
+                } else {
+                    if (!empty($productOption4) && $productOption4 != "None" && $productOption4 != "N/A") {
+                        $price = $productQuantity * ($item_price + ($productOption4 * 1.5));
                     }
-                }
-                else{
-                    $price = $productQuantity*($item_price + ($productOption4*1.5));
                 }
 
                 //selecting date/time from the checkout table and id which will used for the reciept number    

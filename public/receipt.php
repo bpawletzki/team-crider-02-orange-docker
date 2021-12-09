@@ -66,8 +66,9 @@ $db_handle->connectDB();
                 $productOption2 = $item["sweetener"];
                 $productOption3 = $item["syrup"];
                 $productOption3quantity = $item["pumps"];
-                $detail = $db_handle->insertQuery("INSERT INTO checkoutDetail (price, product_id, checkout_id, quantity, creamer, sweetener, syrup, pumps)
-        VALUES('$productPrice','$productId','$checkout_id','$productQuantity', '$productOption', '$productOption2', '$productOption3', '$productOption3quantity')");
+                $productOption4 = $item["shots"];
+                $detail = $db_handle->insertQuery("INSERT INTO checkoutDetail (price, product_id, checkout_id, quantity, creamer, sweetener, syrup, pumps, shots)
+        VALUES('$productPrice','$productId','$checkout_id','$productQuantity', '$productOption', '$productOption2', '$productOption3', '$productOption3quantity', '$productOption4')");
             }
             #Send notification to weekly sales report node-red /checkout to let it know to update the report screen.
             $curl = curl_init("http://node-red:1880/checkout");
@@ -82,26 +83,32 @@ $db_handle->connectDB();
         if (!empty($_SESSION["checkoutid"])) {
 
             //selectng all items from coffee details table
-            $results = $db_handle->runQuery("SELECT checkoutDetail.product_id, checkoutDetail.id, checkoutDetail.quantity, checkoutDetail.price, product.name, checkoutDetail.creamer, checkoutDetail.sweetener, checkoutDetail.syrup, checkoutDetail.pumps FROM checkoutDetail JOIN product ON checkoutDetail.product_id=product.id WHERE checkout_id='" . $_SESSION["checkoutid"] . "'");
+            $results = $db_handle->runQuery("SELECT checkoutDetail.product_id, checkoutDetail.id, checkoutDetail.quantity, checkoutDetail.price, product.name, checkoutDetail.creamer, checkoutDetail.sweetener, checkoutDetail.syrup, checkoutDetail.pumps, checkoutDetail.shots FROM checkoutDetail JOIN product ON checkoutDetail.product_id=product.id WHERE checkout_id='" . $_SESSION["checkoutid"] . "'");
             //looping through the items to display them individually along side their prices and quantities
             foreach ($results as $result) {
                 $product_id = $result["product_id"];
                 $product_name = $result["name"];
                 $id = $result["id"];
                 $qty = $result["quantity"];
-                $price = $result["price"];
+                $item_price = $result["price"];
                 $productOption = $result["creamer"];
                 $productOption2 = $result["sweetener"];
                 $productOption3 = $result["syrup"];
                 $productOption3quantity = $result["pumps"];
-
+                $productOption4 = $result["shots"];
 
                 //adding price per syrup pump
                 if (!empty($productOption3) && $productOption3 != "None" && $productOption3 != "N/A") {
                     if (empty($productOption3quantity)) {
                         $productOption3quantity = 1;
                     }
-                    $price = $price + ($productOption3quantity * 0.25);
+                    else{
+                        $price = $productQuantity*($item_price + ($productOption3quantity * 0.25)+($productOption4*1.5));
+
+                    }
+                }
+                else{
+                    $price = $productQuantity*($item_price + ($productOption4*1.5));
                 }
 
                 //selecting date/time from the checkout table and id which will used for the reciept number    
@@ -131,6 +138,9 @@ $db_handle->connectDB();
                     if (!empty($productOption3quantity)) {
                         $receiptDetails = $receiptDetails . "<br>" . "Syrup pumps: " . $productOption3quantity . " @ $0.25/pump";
                     }
+                }
+                if (!empty($productOption4)) {
+                    $receiptDetails = $receiptDetails . "<br>" . "Espresso Shots: " . $productOption4 . " @ $1.50/shot";
                 }
 
                 $receiptDetails = $receiptDetails .

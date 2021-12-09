@@ -30,6 +30,7 @@ CREATE TABLE `checkoutDetail` (
   `sweetener` varchar(256) NOT NULL,
   `syrup` varchar(256) NOT NULL,
   `pumps` VARCHAR(256) NOT NULL DEFAULT 0,
+  `shots` VARCHAR(256) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `fk_to_product` (`product_id`),
   KEY `fk_to_checkout` (`checkout_id`),
@@ -110,4 +111,7 @@ CREATE TABLE accessfailed (
     username VARCHAR(50) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );
+
+  ALTER TABLE `love_you_a_latte`.`checkoutDetail`
+ADD COLUMN shots VARCHAR(256) NOT NULL DEFAULT 0;
 

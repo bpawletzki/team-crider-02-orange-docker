@@ -206,8 +206,6 @@ $db_handle = new DBController();
         </div>
     </div><br>
     <div class="container site-section" id=responseStatusDisplay></div>
-    <script type="text/javascript" src="./assets/js/jquery.min.js"></script>
-    <script type="text/javascript" src="./assets/bootstrap/js/bootstrap.min.js"></script>
     <?php include('./components/footer.php') ?>
 </body>
 

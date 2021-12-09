@@ -172,28 +172,28 @@ $db_handle = new DBController();
                         <tr>
                             <th scope="row">Totals</th>
                             <td>All Products</td>
-                            <td><?php if (($product_array[$key]["mon"]) != 0) {
+                            <td><?php if (($total0) != 0) {
                                     printf("$%.2f", $total0);
                                 }; ?></td>
-                            <td><?php if (($product_array[$key]["tue"]) != 0) {
+                            <td><?php if (($total1) != 0) {
                                     printf("$%.2f", $total1);
                                 }; ?></td>
-                            <td><?php if (($product_array[$key]["wed"]) != 0) {
+                            <td><?php if (($total2) != 0) {
                                     printf("$%.2f", $total2);
                                 }; ?></td>
-                            <td><?php if (($product_array[$key]["thr"]) != 0) {
+                            <td><?php if (($total3) != 0) {
                                     printf("$%.2f", $total3);
                                 }; ?></td>
-                            <td><?php if (($product_array[$key]["fri"]) != 0) {
+                            <td><?php if (($total4) != 0) {
                                     printf("$%.2f", $total4);
                                 }; ?></td>
-                            <td><?php if (($product_array[$key]["sat"]) != 0) {
+                            <td><?php if (($total5) != 0) {
                                     printf("$%.2f", $total5);
                                 }; ?></td>
-                            <td><?php if (($product_array[$key]["sun"]) != 0) {
+                            <td><?php if (($total6) != 0) {
                                     printf("$%.2f", $total6);
                                 }; ?></td>
-                            <td><?php if (($product_array[$key]["productTotal"]) != 0) {
+                            <td><?php if (($totalWeek) != 0) {
                                     printf("$%.2f", $totalWeek);
                                 }; ?></td>
                         </tr>
